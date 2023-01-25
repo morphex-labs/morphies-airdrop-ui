@@ -1,7 +1,6 @@
 import { FallbackContainer } from '~/components/Fallback';
 import Layout from '~/components/Layout';
 import CreateVesting from '~/components/Vesting/create';
-import CreateGnosisVesting from '~/components/Vesting/create-gnosis';
 import { useNetworkProvider } from '~/hooks';
 import { GetServerSideProps, NextPage } from 'next';
 import { useTranslations } from 'next-intl';
@@ -20,11 +19,7 @@ const Create: NextPage = () => {
   return (
     <Layout>
       {factory ? (
-        process.env.NEXT_PUBLIC_SAFE === 'true' ? (
-          <CreateGnosisVesting factory={factory} />
-        ) : (
-          <CreateVesting factory={factory} />
-        )
+        <CreateVesting factory={factory} />
       ) : (
         <>
           <span className="font-exo text-2xl font-semibold text-lp-gray-4 dark:text-white">Set Up Vesting</span>
