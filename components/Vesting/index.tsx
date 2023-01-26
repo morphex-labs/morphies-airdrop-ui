@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useDialogState } from 'ariakit';
 import VestingTable from './Table';
 import ClaimVesting from './Table/ClaimVestingStream';
+import { SubmitButton } from '../Form';
 
 export default function VestingSection() {
   const { data, isLoading, error } = useGetVestingInfo();
@@ -29,7 +30,11 @@ export default function VestingSection() {
           showLoader={true}
         />
       ) : (
-        <VestingTable {...{ data, claimDialog, claimValues }} />
+        <div className="grid grid-cols-4 gap-4">
+          {[0, 0, 0, 0].map((i) => (
+            <VestingItem key={i} />
+          ))}
+        </div>
       )}
 
       <React.Suspense fallback={null}>
@@ -40,6 +45,41 @@ export default function VestingSection() {
     </section>
   );
 }
+
+const VestingItem = () => {
+  const handleClaimTokens = () => {};
+
+  return (
+    <div className="flex flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
+      <div className="mb-4 flex w-full flex-row justify-between">
+        <h3>Total Vesting</h3>
+        <p className="text-[#b5b5b5] dark:text-[#b5bac1]">1.00</p>
+      </div>
+      <div className="mb-2 flex w-full flex-row justify-between">
+        <h4 className="text-sm">Claimed</h4>
+        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">0.0</p>
+      </div>
+      <div className="mb-2 flex w-full flex-row justify-between">
+        <h4 className="text-sm">Withdrawable</h4>
+        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">0.000953</p>
+      </div>
+      <div className="mb-2 flex w-full flex-row justify-between">
+        <h4 className="text-sm">Status</h4>
+        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">Vesting 4.2324/month</p>
+      </div>
+
+      <SubmitButton className="mt-4" onClick={handleClaimTokens}>
+        Claim Tokens
+      </SubmitButton>
+
+      <div className="mt-2 flex justify-center">
+        <a className="text-xs" href="">
+          Contract
+        </a>
+      </div>
+    </div>
+  );
+};
 
 interface IAltVestingSectionProps {
   isLoading: boolean;
