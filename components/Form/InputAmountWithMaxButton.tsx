@@ -1,6 +1,17 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
-import type { ITokenBalance } from '~/queries/useTokenBalances';
+import { Contract } from 'ethers';
+
+interface ITokenBalance {
+  name: string;
+  tokenAddress: string;
+  decimals: number;
+  tokenContract: Contract;
+  llamaContractAddress: string;
+  symbol: string;
+  logoURI: string;
+  balance: string | null;
+}
 
 interface IProps {
   inputAmount: string;

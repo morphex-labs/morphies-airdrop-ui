@@ -1,6 +1,6 @@
 import { Contract } from 'ethers';
 import { erc20ABI } from 'wagmi';
-import { Provider } from './contract';
+import { Provider } from '../hooks/useNetworkProvider';
 
 // Creates an instance of an ERC20 contract
 export const createERC20Contract = ({

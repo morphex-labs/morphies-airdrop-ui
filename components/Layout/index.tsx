@@ -1,11 +1,7 @@
 import * as React from 'react';
 import Head from 'next/head';
 import { useDialogState } from 'ariakit';
-import { useAccount } from 'wagmi';
 import Header from './Header';
-import Hero from './Hero';
-// import OnboardDialog from '~/components/Onboard';
-
 import CustomToast from '~/components/CustomToast';
 import classNames from 'classnames';
 
@@ -15,8 +11,6 @@ interface ILayoutProps {
 }
 
 export default function Layout({ children, className, ...props }: ILayoutProps) {
-  const [{ data }] = useAccount();
-
   // const onboardDialog = useDialogState();
   const walletDialog = useDialogState();
 
@@ -34,8 +28,6 @@ export default function Layout({ children, className, ...props }: ILayoutProps) 
           {children}
         </main>
       </div>
-
-      {/* <OnboardDialog dialog={onboardDialog} /> */}
 
       <CustomToast />
     </>

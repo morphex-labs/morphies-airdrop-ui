@@ -9,20 +9,8 @@ export const useChainExplorer = () => {
   const { pathname, query } = useRouter();
 
   const { name, url, id } = React.useMemo(() => {
-    if (pathname === '/streams' && !Number.isNaN(query.chainId)) {
-      const details = networkDetails[Number(query.chainId)];
-
-      return details
-        ? { name: details.blockExplorerName, url: details.blockExplorerURL?.slice(0, -1) ?? null }
-        : { name: null, url: null };
-    }
-
-    if (
-      pathname === '/salaries/[chain]/[address]' ||
-      pathname === '/vesting/[chain]/[address]' ||
-      pathname === '/yearn'
-    ) {
-      const chainParam = pathname === '/yearn' ? 'ethereum' : query.chain;
+    if (pathname === '/vesting/[chain]/[address]') {
+      const chainParam = query.chain;
 
       const isParamChainId = Number.isNaN(Number(chainParam));
 

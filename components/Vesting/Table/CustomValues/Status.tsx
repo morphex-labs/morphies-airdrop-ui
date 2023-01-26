@@ -2,7 +2,19 @@ import Tooltip from '~/components/Tooltip';
 import { useLocale } from '~/hooks';
 import { useIntl } from 'next-intl';
 import type { IVesting } from '~/types';
-import { secondsByDuration } from '~/utils/constants';
+
+interface ISecondsByDuration {
+  [key: string]: number;
+}
+
+const secondsByDuration: ISecondsByDuration = {
+  hour: 60 * 60,
+  day: 24 * 60 * 60,
+  week: 7 * 24 * 60 * 60,
+  biweek: 2 * 7 * 24 * 60 * 60,
+  month: 30 * 24 * 60 * 60,
+  year: 365 * 24 * 60 * 60,
+};
 
 export default function Status({ data }: { data: IVesting }) {
   const intl = useIntl();

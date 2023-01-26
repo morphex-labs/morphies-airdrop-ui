@@ -8,10 +8,8 @@ import Layout from '~/components/Layout';
 import { BalanceIcon } from '~/components/Icons';
 import { AltVestingSection } from '~/components/Vesting';
 import { FallbackContainer } from '~/components/Fallback';
-import { useNetworkProvider } from '~/hooks';
 import useGetVestingInfo from '~/queries/useGetVestingInfo';
 import defaultImage from '~/public/empty-token.webp';
-import { useStreamAndHistoryQuery } from '~/services/generated/graphql';
 import { chainDetails } from '~/utils/network';
 
 interface StreamsProps {
@@ -27,8 +25,6 @@ const Streams: NextPage<StreamsProps> = ({ address, resolvedAddress, network, ch
   const t = useTranslations('Common');
 
   const { query } = useRouter();
-
-  const { provider } = useNetworkProvider();
 
   const { data, isLoading, error } = useGetVestingInfo();
 
@@ -89,19 +85,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale }) 
     .catch(() => defaultAddress);
 
   const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(
-    'StreamAndHistory',
-    useStreamAndHistoryQuery.fetcher(
-      {
-        endpoint: network?.subgraphEndpoint ?? '',
-      },
-      {
-        id: userAddress?.toLowerCase() ?? '',
-        network: c?.name ?? '',
-      }
-    )
-  );
 
   // Pass data to the page via props
   return {
