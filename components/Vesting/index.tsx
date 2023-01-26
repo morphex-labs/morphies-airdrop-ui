@@ -4,22 +4,14 @@ import useGetVestingInfo from '~/queries/useGetVestingInfo';
 import type { IVesting } from '~/types';
 import { useTranslations } from 'next-intl';
 import { useDialogState } from 'ariakit';
-import dynamic from 'next/dynamic';
-import { FormDialog } from '~/components/Dialog';
-import type { IChartValues } from './types';
 import VestingTable from './Table';
 import ClaimVesting from './Table/ClaimVestingStream';
-
-const VestingChart = dynamic(() => import('./Charts/VestingChart'), { ssr: false });
 
 export default function VestingSection() {
   const { data, isLoading, error } = useGetVestingInfo();
 
-  const chartDialog = useDialogState();
-
   const claimDialog = useDialogState();
 
-  const chartValues = React.useRef<IChartValues | null>(null);
   const claimValues = React.useRef<IVesting | null>(null);
 
   return (
@@ -37,26 +29,10 @@ export default function VestingSection() {
           showLoader={true}
         />
       ) : (
-        <VestingTable {...{ data, chartValues, chartDialog, claimDialog, claimValues }} />
+        <VestingTable {...{ data, claimDialog, claimValues }} />
       )}
 
       <React.Suspense fallback={null}>
-        {chartValues.current && (
-          <FormDialog dialog={chartDialog} title={`${chartValues.current.tokenSymbol}`} className="max-w-[36rem]">
-            <div className="h-[360px]">
-              {chartDialog.open && (
-                <VestingChart
-                  amount={chartValues.current.amount}
-                  vestingPeriod={chartValues.current.vestingPeriod}
-                  cliffPeriod={chartValues.current.cliffPeriod}
-                  startTime={chartValues.current.startTime}
-                  vestedDays={chartValues.current.vestedDays}
-                />
-              )}
-            </div>
-          </FormDialog>
-        )}
-
         {claimValues.current && (
           <ClaimVesting claimValues={claimValues as React.MutableRefObject<IVesting>} claimDialog={claimDialog} />
         )}
@@ -74,11 +50,9 @@ interface IAltVestingSectionProps {
 export function AltVestingSection({ isLoading, isError, data }: IAltVestingSectionProps) {
   const t = useTranslations('Streams');
 
-  const chartDialog = useDialogState();
   const claimDialog = useDialogState();
   const reasonDialog = useDialogState();
 
-  const chartValues = React.useRef<IChartValues | null>(null);
   const claimValues = React.useRef<IVesting | null>(null);
 
   return (
@@ -96,26 +70,10 @@ export function AltVestingSection({ isLoading, isError, data }: IAltVestingSecti
           ) : null}
         </FallbackContainer>
       ) : (
-        <VestingTable {...{ data, chartValues, chartDialog, claimDialog, reasonDialog, claimValues }} />
+        <VestingTable {...{ data, claimDialog, reasonDialog, claimValues }} />
       )}
 
       <React.Suspense fallback={null}>
-        {chartValues.current && (
-          <FormDialog dialog={chartDialog} title={`${chartValues.current.tokenSymbol}`} className="max-w-[36rem]">
-            <div className="h-[360px]">
-              {chartDialog.open && (
-                <VestingChart
-                  amount={chartValues.current.amount}
-                  vestingPeriod={chartValues.current.vestingPeriod}
-                  cliffPeriod={chartValues.current.cliffPeriod}
-                  startTime={chartValues.current.startTime}
-                  vestedDays={chartValues.current.vestedDays}
-                />
-              )}
-            </div>
-          </FormDialog>
-        )}
-
         {claimValues.current && (
           <ClaimVesting claimValues={claimValues as React.MutableRefObject<IVesting>} claimDialog={claimDialog} />
         )}

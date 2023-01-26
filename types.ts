@@ -117,7 +117,7 @@ export interface IVesting {
   admin: string;
   disabledAt: string;
   timestamp: number;
-  reason: string | null;
+  reason?: string | null;
 }
 
 export interface IPayments {

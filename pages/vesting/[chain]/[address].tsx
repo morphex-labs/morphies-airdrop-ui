@@ -9,7 +9,7 @@ import { BalanceIcon } from '~/components/Icons';
 import { AltVestingSection } from '~/components/Vesting';
 import { FallbackContainer } from '~/components/Fallback';
 import { useNetworkProvider } from '~/hooks';
-import { useGetVestingInfoByQueryParams } from '~/queries/useGetVestingInfo';
+import useGetVestingInfo from '~/queries/useGetVestingInfo';
 import defaultImage from '~/public/empty-token.webp';
 import { useStreamAndHistoryQuery } from '~/services/generated/graphql';
 import { chainDetails } from '~/utils/network';
@@ -30,7 +30,7 @@ const Streams: NextPage<StreamsProps> = ({ address, resolvedAddress, network, ch
 
   const { provider } = useNetworkProvider();
 
-  const { data, isLoading, error } = useGetVestingInfoByQueryParams({ address: resolvedAddress, provider, chainId });
+  const { data, isLoading, error } = useGetVestingInfo();
 
   return (
     <Layout className="flex flex-col gap-12">
