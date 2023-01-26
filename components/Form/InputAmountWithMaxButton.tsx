@@ -21,13 +21,7 @@ interface IProps {
   id: string;
 }
 
-export function InputAmountWithMaxButton({
-  inputAmount,
-  handleInputChange,
-  selectedToken,
-  fillMaxAmountOnClick,
-  id,
-}: IProps) {
+export function InputAmountWithMaxButton({ inputAmount, handleInputChange, fillMaxAmountOnClick, id }: IProps) {
   const t = useTranslations('Forms');
   return (
     <div>
@@ -56,7 +50,6 @@ export function InputAmountWithMaxButton({
         <button
           type="button"
           className="absolute bottom-[5px] top-[10px] right-[5px] rounded-lg border border-lp-gray-1 px-2 text-xs font-bold disabled:cursor-not-allowed dark:border-lp-gray-2"
-          disabled={!selectedToken}
           onClick={fillMaxAmountOnClick}
         >
           {t('max')}

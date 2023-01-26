@@ -1,9 +1,8 @@
 import { Contract } from 'ethers';
-import { UserHistoryFragment } from '~/services/generated/graphql';
 
 export interface IToken {
   tokenAddress: string;
-  llamaContractAddress: string;
+  spenderAddress: string;
   name: string;
   symbol: string;
   decimals: number;
@@ -55,18 +54,6 @@ export interface IStream {
   pausedAmount: string;
   lastPaused: string;
   reason: string | null | undefined;
-}
-
-export interface IHistory extends UserHistoryFragment {
-  addressRelated: string | null;
-  addressRelatedEns?: string | null;
-  addressType: 'payer' | 'payee';
-  amountPerSec: string;
-}
-
-export interface IStreamAndHistory {
-  streams: IStream[] | null;
-  history: IHistory[] | null;
 }
 
 export interface ITokenList {

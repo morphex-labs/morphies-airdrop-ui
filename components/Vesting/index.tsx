@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { ethers } from 'ethers';
+import BigNumber from 'bignumber.js';
 import Fallback, { FallbackContainer } from '~/components/Fallback';
 import useGetVestingInfo from '~/queries/useGetVestingInfo';
 import type { IVesting } from '~/types';
@@ -7,6 +9,24 @@ import { useDialogState } from 'ariakit';
 import VestingTable from './Table';
 import ClaimVesting from './Table/ClaimVestingStream';
 import { SubmitButton } from '../Form';
+import { useAccount, useContractWrite } from 'wagmi';
+import { vestingContractReadableABI } from '~/lib/abis/vestingContractReadable';
+import toast from 'react-hot-toast';
+import { TransactionDialog } from '../Dialog';
+import { BeatLoader } from 'react-spinners';
+
+interface ISecondsByDuration {
+  [key: string]: number;
+}
+
+const secondsByDuration: ISecondsByDuration = {
+  hour: 60 * 60,
+  day: 24 * 60 * 60,
+  week: 7 * 24 * 60 * 60,
+  biweek: 2 * 7 * 24 * 60 * 60,
+  month: 30 * 24 * 60 * 60,
+  year: 365 * 24 * 60 * 60,
+};
 
 export default function VestingSection() {
   const { data, isLoading, error } = useGetVestingInfo();
@@ -14,11 +34,12 @@ export default function VestingSection() {
   const claimDialog = useDialogState();
 
   const claimValues = React.useRef<IVesting | null>(null);
+  console.log('data', data);
 
   return (
     <section className="-mt-2 w-full">
       <div className="section-header flex w-full flex-wrap items-center justify-between">
-        <h1 className="font-exo">Vesting</h1>
+        <h1 className="font-exo">MPX Vesting</h1>
       </div>
 
       {isLoading || error || !data || data.length < 1 ? (
@@ -47,35 +68,88 @@ export default function VestingSection() {
 }
 
 const VestingItem: React.FC<{ data: IVesting }> = ({
-  data: { contract, token, totalClaimed, totalLocked, tokenDecimals, tokenName, tokenSymbol, recipient },
+  data: { contract, totalClaimed, totalLocked, tokenDecimals, unclaimed, endTime, startTime, cliffLength },
 }) => {
-  const handleClaimTokens = () => {};
+  const [{ data: accountData }] = useAccount();
+  const beneficiaryInput = accountData?.address;
+
+  const amountToClaim = new BigNumber(unclaimed).toFixed(0);
+  const transactionDialog = useDialogState();
+  const [transactionHash, setTransactionHash] = React.useState<string>('');
+
+  const [{ loading }, claim] = useContractWrite(
+    {
+      addressOrName: contract,
+      contractInterface: vestingContractReadableABI,
+    },
+    'claim'
+  );
+  function handleConfirm() {
+    claim({ args: [beneficiaryInput, amountToClaim] }).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+        toast.error('Failed to claim MPX');
+      } else {
+        const toastid = toast.loading('Claiming MPX');
+        setTransactionHash(data.data.hash);
+        transactionDialog.show();
+        data.data.wait().then((receipt) => {
+          toast.dismiss(toastid);
+          receipt.status === 1 ? toast.success('Successfully claimed MPX') : toast.error('Failed to claim MPX');
+        });
+      }
+    });
+  }
+
+  const totalVesting = Number(ethers.utils.formatUnits(totalLocked, 18)).toFixed(2);
+  const claimed = Number(ethers.utils.formatUnits(totalClaimed, 18)).toFixed(3);
+  const withdrawable = Number(ethers.utils.formatUnits(unclaimed, 18)).toFixed(4);
+  const amtPerMonth = (
+    (Number(totalLocked) / 10 ** Number(tokenDecimals) / (Number(endTime) - Number(startTime))) *
+    secondsByDuration['month']
+  ).toFixed(4);
+  const vestingStartTime = new Date(Number(startTime) * 1000).toLocaleDateString('en-GB');
+  const vestingEndTime = new Date(Number(endTime) * 1000).toLocaleDateString('en-GB');
+  const cliff = Number(cliffLength) / secondsByDuration['month'];
 
   return (
     <div className="flex flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
       <div className="mb-4 flex w-full flex-row justify-between">
-        <h3>Total Vesting</h3>
-        <p className="text-[#b5b5b5] dark:text-[#b5bac1]">1.00</p>
+        <h4 className="text-md">Total Amount:</h4>
+        <p className="text-[#b5b5b5] dark:text-[#b5bac1]">{totalVesting}</p>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between">
-        <h4 className="text-sm">Claimed</h4>
-        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">0.0</p>
+        <h4 className="text-md">Vesting:</h4>
+        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{amtPerMonth} / month</p>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between">
-        <h4 className="text-sm">Withdrawable</h4>
-        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">0.000953</p>
+        <h4 className="text-md">Claimed:</h4>
+        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{claimed}</p>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between">
-        <h4 className="text-sm">Status</h4>
-        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">Vesting 4.2324/month</p>
+        <h4 className="text-md">Withdrawable:</h4>
+        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{withdrawable}</p>
+      </div>
+      <div className="mb-2 flex w-full flex-row justify-between">
+        <h4 className="text-md">Cliff Length:</h4>
+        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{cliff} months</p>
+      </div>
+      <div className="mb-2 flex w-full flex-row justify-between">
+        <h4 className="text-md">Start Date:</h4>
+        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{vestingStartTime}</p>
+      </div>
+      <div className="mb-2 flex w-full flex-row justify-between">
+        <h4 className="text-md">End Date:</h4>
+        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{vestingEndTime}</p>
       </div>
 
-      <SubmitButton className="mt-4" onClick={handleClaimTokens}>
-        Claim Tokens
+      <SubmitButton className="mt-4" onClick={handleConfirm}>
+        {loading ? <BeatLoader size={6} color="white" /> : 'Claim'}
       </SubmitButton>
+      <TransactionDialog transactionHash={transactionHash} dialog={transactionDialog} />
 
       <div className="mt-2 flex justify-center">
-        <a className="text-xs" href="">
+        <a className="text-sm" href={`https://ftmscan.com/address/${contract}`} target="_blank" rel="noreferrer">
           Contract
         </a>
       </div>

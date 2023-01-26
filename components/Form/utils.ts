@@ -5,7 +5,7 @@ import debounce from 'lodash.debounce';
 import type { IToken } from '~/types';
 import { createERC20Contract } from '~/utils/tokenUtils';
 
-type TokenDetails = Pick<IToken, 'decimals' | 'tokenContract' | 'llamaContractAddress'>;
+type TokenDetails = Pick<IToken, 'decimals' | 'tokenContract' | 'spenderAddress'>;
 
 export interface ICheckApproval {
   tokenDetails: TokenDetails;
@@ -33,7 +33,7 @@ function checkTokenApproval({ tokenDetails, userAddress, approvedForAmount, chec
       checkTokenApproval({
         token: tokenDetails.tokenContract,
         userAddress: userAddress,
-        approveForAddress: tokenDetails.llamaContractAddress,
+        approveForAddress: tokenDetails.spenderAddress,
         approvedForAmount: amount.toFixed(0),
       });
     }
@@ -52,7 +52,7 @@ async function createTokenContractAndCheckApproval({
   const decimals = await tokenContract.decimals();
 
   checkTokenApproval({
-    tokenDetails: { tokenContract, llamaContractAddress: approveForAddress, decimals },
+    tokenDetails: { tokenContract, spenderAddress: approveForAddress, decimals },
     userAddress,
     approvedForAmount,
     checkTokenApproval: approvalFn,
