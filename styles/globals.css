@@ -7,16 +7,16 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Rubik', sans-serif;
   }
 
   .font-exo {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Rubik', sans-serif;
   }
 
   @supports (font-variation-settings: normal) {
     html {
-      font-family: 'Inter var', sans-serif;
+      font-family: 'Rubik', sans-serif;
     }
   }
 
@@ -65,7 +65,7 @@
   }
 
   .form-submit-button {
-    @apply shadow-1 w-full rounded-[10px] border border-lp-secondary bg-lp-primary py-[7px] px-3 font-semibold text-lp-white disabled:cursor-not-allowed dark:bg-lp-secondary dark:text-lp-black;
+    @apply shadow-1 w-full rounded-[10px]  bg-[#0029FF] py-[7px] px-3 text-sm font-semibold font-normal text-lp-white disabled:cursor-not-allowed;
   }
 
   .input-label {
@@ -73,7 +73,7 @@
   }
 
   .input-field {
-    @apply mt-[5px] min-h-[40px] w-full rounded border border-lp-gray-1 bg-lp-white px-3 py-1 slashed-zero placeholder:text-sm placeholder:text-lp-gray-2 dark:border-transparent dark:bg-lp-gray-5;
+    @apply mt-[5px] min-h-[40px] w-full rounded border border-lp-gray-1 bg-[#f9f9f9] px-3 py-1 slashed-zero placeholder:text-sm placeholder:text-lp-gray-2 dark:border-transparent dark:bg-[#3f4f66] dark:text-white dark:placeholder:text-white;
   }
 
   .input-error {

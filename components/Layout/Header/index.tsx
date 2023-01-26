@@ -21,9 +21,9 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
   const isDark = resolvedTheme === 'dark';
 
   return (
-    <header className="flex items-center justify-between gap-10 border-b border-llama-teal-2 bg-llama-teal-1 bg-opacity-5 py-4 px-2 text-base dark:border-lp-gray-7 dark:bg-lp-gray-8 md:px-6 lg:px-8">
+    <header className="mt-2 flex content-center items-center justify-between gap-10 rounded-[30px] border-llama-teal-2 bg-[#fffffe] bg-opacity-5 py-2 px-6 text-base dark:border-lp-gray-7 dark:bg-[#334155] sm:px-6 lg:px-8">
       <Link href="/" passHref>
-        <a>
+        <a className="text-[#0c00ff] dark:text-[#fff]">
           <span className="sr-only">Navigate to Home Page</span>
           <Logo />
         </a>
@@ -35,7 +35,7 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
             <Account showAccountInfo={walletDialog.toggle} />
           </>
         ) : (
-          <button className="nav-button-v2 hidden md:block" onClick={walletDialog.toggle}>
+          <button className="nav-button-v2 hidden hover:opacity-80  md:block" onClick={walletDialog.toggle}>
             {t('connectWallet')}
           </button>
         )}
