@@ -1,16 +1,16 @@
-import { useQuery } from 'react-query';
-import type { ITokenLists } from '~/types';
-import { useAccount } from 'wagmi';
-import BigNumber from 'bignumber.js';
-import { useNetworkProvider, useTokenList } from '~/hooks';
-import { Provider } from '~/utils/contract';
+// import { useQuery } from 'react-query';
+// import type { ITokenLists } from '~/types';
+// import { useAccount } from 'wagmi';
+// import BigNumber from 'bignumber.js';
+// import { useNetworkProvider } from '~/hooks';
+// import { Provider } from '~/utils/contract';
 import { Contract } from 'ethers';
 
-interface IFetchBalance {
-  userAddress: string;
-  tokens: ITokenLists[] | null;
-  provider: Provider | null;
-}
+// interface IFetchBalance {
+//   userAddress: string;
+//   tokens: ITokenLists[] | null;
+//   provider: Provider | null;
+// }
 
 export interface ITokenBalance {
   name: string;
@@ -23,61 +23,61 @@ export interface ITokenBalance {
   balance: string | null;
 }
 
-const fetchBalance = async ({ userAddress, tokens, provider }: IFetchBalance) => {
-  if (!userAddress || userAddress === '' || !tokens || !provider) return null;
+// const fetchBalance = async ({ userAddress, tokens, provider }: IFetchBalance) => {
+//   if (!userAddress || userAddress === '' || !tokens || !provider) return null;
 
-  try {
-    const res = await Promise.all(tokens.map((token) => token.tokenContract.balanceOf(userAddress)));
+//   try {
+//     const res = await Promise.all(tokens.map((token) => token.tokenContract.balanceOf(userAddress)));
 
-    const balances =
-      res
-        ?.map((balance, index) => {
-          const bal = new BigNumber(balance.toString()).dividedBy(10 ** tokens[index].decimals);
-          return {
-            name: tokens[index].isVerified ? tokens[index].name : tokens[index].tokenAddress,
-            tokenAddress: tokens[index].tokenAddress,
-            decimals: tokens[index].decimals,
-            tokenContract: tokens[index].tokenContract,
-            llamaContractAddress: tokens[index].llamaContractAddress,
-            symbol: tokens[index].symbol,
-            logoURI: tokens[index].logoURI,
-            balance: bal ? Math.floor((Number(bal) * 100000) / 100000).toFixed(5) : null,
-          };
-        })
-        ?.sort((a, b) => {
-          if (!a.balance || Number.isNaN(a.balance)) return -1;
-          if (!b.balance || Number.isNaN(a.balance)) return 1;
-          return Number(b.balance) - Number(a.balance);
-        }) ?? null;
+//     const balances =
+//       res
+//         ?.map((balance, index) => {
+//           const bal = new BigNumber(balance.toString()).dividedBy(10 ** tokens[index].decimals);
+//           return {
+//             name: tokens[index].isVerified ? tokens[index].name : tokens[index].tokenAddress,
+//             tokenAddress: tokens[index].tokenAddress,
+//             decimals: tokens[index].decimals,
+//             tokenContract: tokens[index].tokenContract,
+//             llamaContractAddress: tokens[index].llamaContractAddress,
+//             symbol: tokens[index].symbol,
+//             logoURI: tokens[index].logoURI,
+//             balance: bal ? Math.floor((Number(bal) * 100000) / 100000).toFixed(5) : null,
+//           };
+//         })
+//         ?.sort((a, b) => {
+//           if (!a.balance || Number.isNaN(a.balance)) return -1;
+//           if (!b.balance || Number.isNaN(a.balance)) return 1;
+//           return Number(b.balance) - Number(a.balance);
+//         }) ?? null;
 
-    return balances;
-  } catch (error) {
-    // console.log(error);
-    return null;
-  }
-};
+//     return balances;
+//   } catch (error) {
+//     // console.log(error);
+//     return null;
+//   }
+// };
 
-function useTokenBalances() {
-  const [{ data: accountData }] = useAccount();
-  const { provider, network } = useNetworkProvider();
-  const { data: tokens, isLoading: listLoading } = useTokenList();
+// function useTokenBalances() {
+//   const [{ data: accountData }] = useAccount();
+//   const { provider, network } = useNetworkProvider();
+//   const { data: tokens, isLoading: listLoading } = useTokenList();
 
-  const userAddress = accountData?.address.toLowerCase() ?? '';
+//   const userAddress = accountData?.address.toLowerCase() ?? '';
 
-  const listKey =
-    tokens && tokens?.length > 0
-      ? `listsExist ${network} ${userAddress} ${listLoading}`
-      : `noList ${network} ${userAddress} ${listLoading}`;
+//   const listKey =
+//     tokens && tokens?.length > 0
+//       ? `listsExist ${network} ${userAddress} ${listLoading}`
+//       : `noList ${network} ${userAddress} ${listLoading}`;
 
-  const data = useQuery<ITokenBalance[] | null>(
-    ['allTokenBalances', listKey],
-    () => fetchBalance({ userAddress, tokens, provider }),
-    {
-      refetchInterval: 30000,
-    }
-  );
+//   const data = useQuery<ITokenBalance[] | null>(
+//     ['allTokenBalances', listKey],
+//     () => fetchBalance({ userAddress, tokens, provider }),
+//     {
+//       refetchInterval: 30000,
+//     }
+//   );
 
-  return { ...data, listLoading };
-}
+//   return { ...data, listLoading };
+// }
 
-export default useTokenBalances;
+// export default useTokenBalances;

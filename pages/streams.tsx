@@ -6,12 +6,11 @@ import { dehydrate, QueryClient } from 'react-query';
 import { useStreamAndHistoryQuery } from '~/services/generated/graphql';
 import defaultImage from '~/public/empty-token.webp';
 import Image, { StaticImageData } from 'next/image';
-import { AltStreamSection } from '~/components/Stream';
-import { AltHistorySection } from '~/components/History';
-import { useFormatStreamAndHistory, useNetworkProvider } from '~/hooks';
+// import { AltHistorySection } from '~/components/History';
+// import { useFormatStreamAndHistory, useNetworkProvider } from '~/hooks';
 import { chainDetails } from '~/utils/network';
 import { useTranslations } from 'next-intl';
-import Balance from '~/components/Balance';
+// import Balance from '~/components/Balance';
 
 interface StreamsProps {
   subgraphEndpoint: string;
@@ -21,24 +20,7 @@ interface StreamsProps {
   logoURI: StaticImageData;
 }
 
-const Streams: NextPage<StreamsProps> = ({ subgraphEndpoint, address, resolvedAddress, network, logoURI }) => {
-  const { data, isLoading, isError } = useStreamAndHistoryQuery(
-    {
-      endpoint: subgraphEndpoint,
-    },
-    {
-      id: resolvedAddress,
-      network: network,
-    },
-    {
-      refetchInterval: 30000,
-    }
-  );
-
-  const { provider } = useNetworkProvider();
-
-  const streamsAndHistory = useFormatStreamAndHistory({ data, address: resolvedAddress, provider });
-
+const Streams: NextPage<StreamsProps> = ({ address, resolvedAddress, network, logoURI }) => {
   const t = useTranslations('Common');
 
   return (
@@ -74,11 +56,9 @@ const Streams: NextPage<StreamsProps> = ({ subgraphEndpoint, address, resolvedAd
         </div>
       </div>
 
-      <Balance address={address} />
+      {/* <Balance address={address} />
 
-      <AltStreamSection isLoading={isLoading} isError={isError} data={streamsAndHistory} />
-
-      <AltHistorySection isLoading={isLoading} isError={isError} data={streamsAndHistory} />
+      <AltHistorySection isLoading={isLoading} isError={isError} data={streamsAndHistory} /> */}
     </Layout>
   );
 };
