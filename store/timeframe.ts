@@ -13,7 +13,7 @@ export const useTimeframeStore = create<TimeframeStore>()(
       setTimeframe: (newTimeframe: number) => set(() => ({ timeframe: newTimeframe })),
     }),
     {
-      name: 'llamapay-timeframe', // unique name
+      name: 'morphex-bonds-timeframe', // unique name
     }
   )
 );

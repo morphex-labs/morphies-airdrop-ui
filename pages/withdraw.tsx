@@ -8,18 +8,9 @@ import { BalanceIcon, StreamIcon } from '~/components/Icons';
 import { InputText, SubmitButton } from '~/components/Form';
 import { useStreamAndHistoryQuery } from '~/services/generated/graphql';
 import { BeatLoader } from 'react-spinners';
-import {
-  AmtPerMonth,
-  Push,
-  SavedName,
-  StreamAddress,
-  streamAddressFormatter,
-  TokenName,
-  Withdrawable,
-} from '~/components/Stream/Table/CustomValues';
 import { CashIcon } from '@heroicons/react/solid';
 import useBatchCalls from '~/queries/useBatchCalls';
-import useGnosisBatch from '~/queries/useGnosisBatch';
+// import useGnosisBatch from '~/queries/useGnosisBatch';
 import { LlamaContractInterface } from '~/utils/contract';
 import { chainDetails } from '~/utils/network';
 import defaultImage from '~/public/empty-token.webp';
@@ -42,7 +33,7 @@ const Withdraw: NextPage<IWithdrawProps> = ({ resolvedAddress }) => {
   const [addressToFetch, setAddressToFetch] = React.useState<string | null>(resolvedAddress);
   const [fetchingEns, setFetchingEns] = React.useState(false);
   const { mutate: batchCall } = useBatchCalls();
-  const { mutate: gnosisBatch } = useGnosisBatch();
+  // const { mutate: gnosisBatch } = useGnosisBatch();
   const { url: chainExplorer } = useChainExplorer();
 
   const router = useRouter();
@@ -120,13 +111,9 @@ const Withdraw: NextPage<IWithdrawProps> = ({ resolvedAddress }) => {
         return (acc = { ...acc, [current.llamaContractAddress]: callData });
       }, {}) ?? {};
 
-    if (process.env.NEXT_PUBLIC_SAFE === 'true') {
-      gnosisBatch({ calls: calls });
-    } else {
-      Object.keys(calls).map((p) => {
-        batchCall({ llamaContractAddress: p, calls: calls[p] });
-      });
-    }
+    Object.keys(calls).map((p) => {
+      batchCall({ llamaContractAddress: p, calls: calls[p] });
+    });
   };
 
   const showFallback = !accountData || unsupported;
@@ -227,30 +214,6 @@ const Withdraw: NextPage<IWithdrawProps> = ({ resolvedAddress }) => {
                     <th className="whitespace-nowrap border py-[6px] px-4 text-left text-sm font-semibold text-lp-gray-4 dark:text-white"></th>
                   </tr>
                 </thead>
-                <tbody>
-                  {formattedData.streams.map((stream) => (
-                    <tr key={stream.streamId} className="border dark:border-white">
-                      <td className="table-description border-solid dark:border-white">
-                        <SavedName data={stream} />
-                      </td>
-                      <td className="table-description border-solid dark:border-white">
-                        <StreamAddress data={streamAddressFormatter(stream)} />
-                      </td>
-                      <td className="table-description border-solid dark:border-white">
-                        <TokenName data={stream} />
-                      </td>
-                      <td className="table-description border-solid dark:border-white">
-                        <AmtPerMonth data={stream.amountPerSec} />
-                      </td>
-                      <td className="table-description border-solid dark:border-white">
-                        <Withdrawable data={stream} />
-                      </td>
-                      <td className="table-description border-solid text-right dark:border-white">
-                        <Push data={stream} buttonName="Send" />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
               </table>
             </div>
           )}

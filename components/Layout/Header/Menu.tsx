@@ -1,4 +1,4 @@
-import { BookOpenIcon, LibraryIcon, MoonIcon, SunIcon, TerminalIcon } from '@heroicons/react/outline';
+import { MoonIcon, SunIcon } from '@heroicons/react/outline';
 import { DisclosureState } from 'ariakit';
 import { Menu, MenuItem } from '~/components/NestedMenu';
 import { useIsMounted, useWindowSize } from '~/hooks';
@@ -11,16 +11,8 @@ import defaultImage from '~/public/empty-token.webp';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 
-export default function HeaderMenu({
-  onboardDialog,
-  walletDialog,
-}: {
-  onboardDialog: DisclosureState;
-  walletDialog: DisclosureState;
-}) {
+export default function HeaderMenu({ walletDialog }: { walletDialog: DisclosureState }) {
   const [{ data: accountData }] = useAccount();
-
-  const t2 = useTranslations('Header');
 
   const { setTheme, resolvedTheme } = useTheme();
 
@@ -104,16 +96,6 @@ export default function HeaderMenu({
         </Menu>
       )}
 
-      {/* <MenuItem
-        label={
-          <>
-            <span className="cursor-pointer">{t1('getStarted')}</span>
-            <PlayIcon className="h-4 w-4" />
-          </>
-        }
-        onClick={onboardDialog.toggle}
-      /> */}
-
       {isMaxWidthLg && (
         <>
           <Menu label="Salaries">
@@ -139,65 +121,6 @@ export default function HeaderMenu({
           </Menu>
         </>
       )}
-
-      {/* <Menu label={t2('language')}>
-        {locales.map((locale) => (
-          <MenuItem
-            style={{ cursor: 'pointer' }}
-            label={locale.name}
-            key={locale.id}
-            onClick={() => updateLocale(locale.id)}
-          />
-        ))}
-      </Menu> */}
-
-      {/* {isMaxWidthLg && (
-        <MenuItem
-          label={
-            <a
-              href="https://docs.llamapay.io/"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="flex w-full items-center justify-between gap-4 font-normal"
-            >
-              <span>{t2('docs')}</span>
-              <BookOpenIcon className="h-4 w-4" />
-            </a>
-          }
-        />
-      )}
-
-      {isMaxWidthLg && (
-        <MenuItem
-          label={
-            <a
-              href="https://docs.llamapay.io/llamapay/gnosis-safe/adding-as-a-custom-app"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="flex w-full items-center justify-between gap-4 font-normal"
-            >
-              <span>Gnosis Safe</span>
-              <LibraryIcon className="h-4 w-4" />
-            </a>
-          }
-        />
-      )}
-
-      {isMaxWidthLg && (
-        <MenuItem
-          label={
-            <a
-              href="https://github.com/banteg/ape-llamapay"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="flex w-full items-center justify-between gap-4 font-normal"
-            >
-              <span>Ape SDK</span>
-              <TerminalIcon className="h-4 w-4" />
-            </a>
-          }
-        />
-      )} */}
 
       {isMounted && isMaxWidthLg && (
         <MenuItem

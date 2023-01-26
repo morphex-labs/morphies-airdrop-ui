@@ -1,7 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import * as React from 'react';
 import Layout from '~/components/Layout';
-import { CreateStream } from '~/components/Stream';
 import { useAccount } from 'wagmi';
 import { useNetworkProvider } from '~/hooks';
 import useStreamsAndHistory from '~/queries/useStreamsAndHistory';
@@ -31,7 +30,7 @@ const Create: NextPage = () => {
           </FallbackContainer>
         </section>
       ) : (
-        <CreateStream />
+        <div /> // placeholder
       )}
     </Layout>
   );

@@ -9,7 +9,7 @@ type AddressStore = {
 export const useAddressStore = create<AddressStore>()(
   persist(
     (set) => ({
-      addressBook: [{ id: 'llamapay', shortName: '1' }],
+      addressBook: [{ id: 'morphex-bonds', shortName: '1' }],
       updateAddress: (id: string, shortName: string) =>
         set((state) => {
           const isDuplicate = state.addressBook.find((p) => p.id === id);
@@ -32,7 +32,7 @@ export const useAddressStore = create<AddressStore>()(
         }),
     }),
     {
-      name: 'llama-address-book', // unique name
+      name: 'bonds-address-book', // unique name
     }
   )
 );
