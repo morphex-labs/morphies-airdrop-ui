@@ -31,8 +31,8 @@ export default function VestingSection() {
         />
       ) : (
         <div className="grid grid-cols-4 gap-4">
-          {[0, 0, 0, 0].map((i) => (
-            <VestingItem key={i} />
+          {data.map((d: IVesting) => (
+            <VestingItem key={d.contract} data={d} />
           ))}
         </div>
       )}
@@ -46,7 +46,9 @@ export default function VestingSection() {
   );
 }
 
-const VestingItem = () => {
+const VestingItem: React.FC<{ data: IVesting }> = ({
+  data: { contract, token, totalClaimed, totalLocked, tokenDecimals, tokenName, tokenSymbol, recipient },
+}) => {
   const handleClaimTokens = () => {};
 
   return (
