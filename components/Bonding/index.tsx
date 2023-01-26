@@ -15,7 +15,7 @@ export default function BondingSection() {
   );
 }
 
-const UsdcCard = () => {
+const FtmCard = () => {
   const [ftmAmount, setFtmAmount] = useState('');
   const [isApproved, setIsApproved] = useState(false);
 
@@ -27,7 +27,7 @@ const UsdcCard = () => {
 
   return (
     <div className="flex flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
-      <h3 className="text-lg">Bond USDC</h3>
+      <h3 className="text-lg">Bond FTM</h3>
       <p className="mt-2 mb-4 text-[#b5b5b5] dark:text-[#b5bac1]">Balance: 42.32</p>
       <InputAmountWithMaxButton
         handleInputChange={(e) => setFtmAmount(e.target.value)}
@@ -43,7 +43,7 @@ const UsdcCard = () => {
   );
 };
 
-const FtmCard = () => {
+const UsdcCard = () => {
   const [usdcAmount, setUsdcAmount] = useState('');
   const [isApproved, setIsApproved] = useState(false);
 
@@ -56,7 +56,7 @@ const FtmCard = () => {
   return (
     <div className="flex flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
       <h3 className="text-lg">Bond USDC</h3>
-      <p className="mt-2 mb-4 text-[#b5b5b5] dark:text-[#b5bac1]">Balance: 42.32</p>
+      <p className="mt-2 mb-4 text-[#b5b5b5] dark:text-[#b5bac1]">Balance: 742.32</p>
       <InputAmountWithMaxButton
         handleInputChange={(e) => setUsdcAmount(e.target.value)}
         inputAmount={usdcAmount}

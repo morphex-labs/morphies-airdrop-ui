@@ -23,7 +23,7 @@ export default function Layout({ children, className, ...props }: ILayoutProps) 
   return (
     <>
       <Head>
-        <title>Morphex</title>
+        <title>Morphex Bonds</title>
         <meta name="description" content="Morphex Bonds" />
       </Head>
 
