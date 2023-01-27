@@ -10,12 +10,21 @@ import { useDialogState } from 'ariakit';
 import { BeatLoader } from 'react-spinners';
 import { TransactionDialog } from '../Dialog';
 import toast from 'react-hot-toast';
+import MoreInfo from '../MoreInfo';
 
 export default function BondingSection() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <section className="-mt-2 w-full">
+      <MoreInfo isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="section-header flex w-full flex-wrap items-center justify-between">
-        <h1 className="font-exo">Bond for MPX</h1>
+        <h1 className="font-exo">
+          Bond for MPX
+          <span className="ml-4 cursor-pointer text-sm" onClick={() => setIsOpen(!isOpen)}>
+            More Info
+          </span>
+        </h1>
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <UsdcCard />
