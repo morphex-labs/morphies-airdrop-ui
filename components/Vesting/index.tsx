@@ -104,13 +104,22 @@ const VestingItem: React.FC<{ data: IVesting }> = ({
   const totalVesting = Number(ethers.utils.formatUnits(totalLocked, 18)).toFixed(2);
   const claimed = Number(ethers.utils.formatUnits(totalClaimed, 18)).toFixed(3);
   const withdrawable = Number(ethers.utils.formatUnits(unclaimed, 18)).toFixed(4);
-  const amtPerMonth = (
-    (Number(totalLocked) / 10 ** Number(tokenDecimals) / (Number(endTime) - Number(startTime))) *
-    secondsByDuration['month']
-  ).toFixed(4);
-  const vestingStartTime = new Date(Number(startTime) * 1000).toLocaleDateString('en-GB');
   const vestingEndTime = new Date(Number(endTime) * 1000).toLocaleDateString('en-GB');
-  const cliff = Number(cliffLength) / secondsByDuration['month'];
+
+  function getStatus() {
+    if (Date.now() / 1e3 < Number(startTime) + Number(cliffLength)) {
+      const tilStart = ((Number(startTime) + Number(cliffLength) - Date.now() / 1e3) / 86400).toFixed(2);
+      return `Vesting starts in ${tilStart} days`;
+    } else if (totalClaimed === totalLocked) {
+      return `Vesting ended`;
+    } else {
+      const amtPerMonth: string = (
+        (Number(totalLocked) / 10 ** Number(tokenDecimals) / (Number(endTime) - Number(startTime))) *
+        secondsByDuration['month']
+      ).toFixed(3);
+      return `Vesting ${amtPerMonth} / month`;
+    }
+  }
 
   return (
     <div className="flex flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
@@ -119,8 +128,8 @@ const VestingItem: React.FC<{ data: IVesting }> = ({
         <p className="text-[#b5b5b5] dark:text-[#b5bac1]">{totalVesting}</p>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between">
-        <h4 className="text-md">Vesting:</h4>
-        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{amtPerMonth} / month</p>
+        <h4 className="text-md">Status:</h4>
+        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{getStatus()}</p>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between">
         <h4 className="text-md">Claimed:</h4>
@@ -129,14 +138,6 @@ const VestingItem: React.FC<{ data: IVesting }> = ({
       <div className="mb-2 flex w-full flex-row justify-between">
         <h4 className="text-md">Withdrawable:</h4>
         <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{withdrawable}</p>
-      </div>
-      <div className="mb-2 flex w-full flex-row justify-between">
-        <h4 className="text-md">Cliff Length:</h4>
-        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{cliff} months</p>
-      </div>
-      <div className="mb-2 flex w-full flex-row justify-between">
-        <h4 className="text-md">Start Date:</h4>
-        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{vestingStartTime}</p>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between">
         <h4 className="text-md">End Date:</h4>

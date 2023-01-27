@@ -20,14 +20,14 @@ const swap = async ({ signer, contractAddress, amountToDeposit }: ISwapToken) =>
       throw new Error("Couldn't get signer");
     } else {
       const contract = new ethers.Contract(contractAddress, migratorABI, signer);
-      return await contract.deposit(amountToDeposit);
+      return await contract.swap(amountToDeposit);
     }
   } catch (error: any) {
-    throw new Error(error.message || (error?.reason ?? "Couldn't deposit token"));
+    throw new Error(error.message || (error?.reason ?? "Couldn't swap token"));
   }
 };
 
-export default function useDepositToken() {
+export default function useSwapToken() {
   const [{ data: signer }] = useSigner();
   const queryClient = useQueryClient();
 
@@ -35,19 +35,19 @@ export default function useDepositToken() {
     ({ contractAddress, amountToDeposit }: IUseSwapToken) => swap({ signer, contractAddress, amountToDeposit }),
     {
       onError: (error) => {
-        toast.error(error.message || "Couldn't deposit token");
+        toast.error(error.message || "Couldn't swap token");
       },
       onSuccess: (data) => {
-        const toastId = toast.loading('Confirming Deposit');
+        const toastId = toast.loading('Confirming swap');
         data.wait().then((res) => {
           toast.dismiss(toastId);
 
           queryClient.invalidateQueries();
 
           if (res.status === 1) {
-            toast.success('Deposit Success');
+            toast.success('Swap success!');
           } else {
-            toast.error('Deposit Failed');
+            toast.error('Swap failed!');
           }
         });
       },
