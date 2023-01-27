@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
 import Fallback from '~/components/Fallback';
 import useGetVestingInfo from '~/queries/useGetVestingInfo';
@@ -11,6 +10,7 @@ import { vestingContractReadableABI } from '~/lib/abis/vestingContractReadable';
 import toast from 'react-hot-toast';
 import { TransactionDialog } from '../Dialog';
 import { BeatLoader } from 'react-spinners';
+import { ethers } from 'ethers';
 
 interface ISecondsByDuration {
   [key: string]: number;
@@ -49,12 +49,12 @@ export default function VestingSection() {
 }
 
 const VestingItem: React.FC<{ data: IVesting }> = ({
-  data: { contract, totalClaimed, totalLocked, tokenDecimals, unclaimed, endTime, startTime, cliffLength },
+  data: { contract, totalClaimed, totalLocked, unclaimed, endTime, startTime, cliffLength },
 }) => {
   const [{ data: accountData }] = useAccount();
   const beneficiaryInput = accountData?.address;
 
-  const amountToClaim = new BigNumber(unclaimed).toFixed(0);
+  const amountToClaim = ethers.utils.parseUnits(unclaimed, 18);
   const transactionDialog = useDialogState();
   const [transactionHash, setTransactionHash] = React.useState<string>('');
 
@@ -82,9 +82,9 @@ const VestingItem: React.FC<{ data: IVesting }> = ({
     });
   }
 
-  const totalVesting = Number(ethers.utils.formatUnits(totalLocked, 18)).toFixed(2);
-  const claimed = Number(ethers.utils.formatUnits(totalClaimed, 18)).toFixed(3);
-  const withdrawable = Number(ethers.utils.formatUnits(unclaimed, 18)).toFixed(4);
+  const totalVesting = Number(totalLocked).toFixed(2);
+  const claimed = Number(totalClaimed).toFixed(3);
+  const withdrawable = Number(unclaimed).toFixed(3);
   const vestingEndTime = new Date(Number(endTime) * 1000).toLocaleDateString('en-GB');
 
   function getStatus() {
@@ -95,9 +95,9 @@ const VestingItem: React.FC<{ data: IVesting }> = ({
       return `Vesting ended`;
     } else {
       const amtPerMonth: string = (
-        (Number(totalLocked) / 10 ** Number(tokenDecimals) / (Number(endTime) - Number(startTime))) *
+        (Number(totalLocked) / (Number(endTime) - Number(startTime))) *
         secondsByDuration['month']
-      ).toFixed(3);
+      ).toFixed(2);
       return `Vesting ${amtPerMonth} / month`;
     }
   }

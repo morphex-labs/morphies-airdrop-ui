@@ -83,8 +83,8 @@ async function getVestingInfo(userAddress: string | undefined, provider: BasePro
         const tokenReturnContext = tokenContractCallResults[vestingReturnContext[3].returnValues[0]].callsReturnContext;
         results.push({
           contract: key,
-          unclaimed: new BigNumber(vestingReturnContext[0].returnValues[0].hex).toString(),
-          locked: new BigNumber(vestingReturnContext[1].returnValues[0].hex).toString(),
+          unclaimed: ethers.utils.formatUnits(vestingReturnContext[0].returnValues[0].hex, 18),
+          locked: ethers.utils.formatUnits(vestingReturnContext[1].returnValues[0].hex, 18),
           recipient: recipient,
           token: vestingReturnContext[3].returnValues[0],
           tokenName: tokenReturnContext[0].returnValues[0],
@@ -93,8 +93,8 @@ async function getVestingInfo(userAddress: string | undefined, provider: BasePro
           startTime: new BigNumber(vestingReturnContext[4].returnValues[0].hex).toString(),
           endTime: new BigNumber(vestingReturnContext[5].returnValues[0].hex).toString(),
           cliffLength: new BigNumber(vestingReturnContext[6].returnValues[0].hex).toString(),
-          totalLocked: new BigNumber(vestingReturnContext[7].returnValues[0].hex).toString(),
-          totalClaimed: new BigNumber(vestingReturnContext[8].returnValues[0].hex).toString(),
+          totalLocked: ethers.utils.formatUnits(vestingReturnContext[7].returnValues[0].hex, 18),
+          totalClaimed: ethers.utils.formatUnits(vestingReturnContext[8].returnValues[0].hex, 18),
           admin: admin,
           disabledAt: new BigNumber(vestingReturnContext[10].returnValues[0].hex).toString(),
           timestamp: Date.now() / 1e3,

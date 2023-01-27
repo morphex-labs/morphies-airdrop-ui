@@ -21,7 +21,7 @@ const Fallback = ({ isLoading, isError, noData, supressWalletConnection, showLoa
   const errorMessage = "Couldn't load data";
   const emptyDataMessage = 'Bond for MPX to see your vesting contracts';
   const defaultMessage = !accountData
-    ? 'Connect Wallet to see your vesting contracts'
+    ? 'Connect a wallet to see your vesting contracts'
     : unsupported
     ? 'Network not supported, please switch to Fantom Opera'
     : null;
