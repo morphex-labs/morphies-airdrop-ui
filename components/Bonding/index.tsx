@@ -37,7 +37,8 @@ const FtmCard = () => {
     token: ftmAddress,
   });
 
-  const ftmBalance = Number(balance?.formatted).toFixed(2);
+  const ftmBalance = balance?.formatted ? Number(balance.formatted).toFixed(2) : '-';
+
   const transactionDialog = useDialogState();
 
   const { mutate: swapToken, isLoading, data: transaction } = useSwapToken();
@@ -157,7 +158,7 @@ const UsdcCard = () => {
     formatUnits: 'mwei',
   });
 
-  const usdcBalanceFormatted = Number(usdcBalance?.formatted).toFixed(2);
+  const usdcBalanceFormatted = usdcBalance?.formatted ? Number(usdcBalance?.formatted).toFixed(2) : '-';
 
   const transactionDialog = useDialogState();
 

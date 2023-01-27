@@ -10,7 +10,6 @@ import * as React from 'react';
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { WalletProvider } from '~/components/Web3';
-import { NextIntlProvider } from 'next-intl';
 import { ThemeProvider } from 'next-themes';
 
 function App({ Component, pageProps }: AppProps) {
@@ -18,16 +17,14 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <ThemeProvider defaultTheme="light" attribute="class">
-      <NextIntlProvider messages={pageProps.messages}>
-        <WalletProvider>
-          <QueryClientProvider client={queryClient}>
-            <Hydrate state={pageProps.dehydratedState}>
-              <Component {...pageProps} />
-              <ReactQueryDevtools initialIsOpen={false} />
-            </Hydrate>
-          </QueryClientProvider>
-        </WalletProvider>
-      </NextIntlProvider>
+      <WalletProvider>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <Component {...pageProps} />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </Hydrate>
+        </QueryClientProvider>
+      </WalletProvider>
     </ThemeProvider>
   );
 }

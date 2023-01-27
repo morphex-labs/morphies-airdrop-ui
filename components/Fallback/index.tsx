@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useNetworkProvider } from '~/hooks';
-import { useTranslations } from 'next-intl';
 import { BeatLoader } from 'react-spinners';
 import { useAccount } from 'wagmi';
 
@@ -8,63 +7,24 @@ interface FallbackProps {
   isLoading?: boolean;
   isError: boolean;
   noData: boolean;
-  type: 'streams' | 'history' | 'balances' | 'payeesList' | 'vestingStreams' | 'payments';
   showLoader?: boolean;
   supressWalletConnection?: boolean;
 }
 
-const Fallback = ({ isLoading, isError, noData, type, supressWalletConnection, showLoader }: FallbackProps) => {
+const Fallback = ({ isLoading, isError, noData, supressWalletConnection, showLoader }: FallbackProps) => {
   const [{ data: basicAccountData }] = useAccount();
 
   const accountData = supressWalletConnection === true || basicAccountData !== undefined;
 
   const { unsupported } = useNetworkProvider();
-  const t0 = useTranslations('Common');
 
-  let errorMessage = t0('error');
-  let emptyDataMessage = '';
-  let defaultMessage: string | null = null;
-
-  switch (type) {
-    case 'balances':
-      errorMessage = t0('error');
-      emptyDataMessage = t0('noData');
-      defaultMessage = !accountData ? t0('connectWallet') : unsupported ? t0('networkNotSupported') : null;
-      break;
-    case 'streams':
-      errorMessage = t0('error');
-      emptyDataMessage = t0('noData');
-      defaultMessage = !accountData ? t0('connectWallet') : unsupported ? t0('networkNotSupported') : null;
-      break;
-    case 'history':
-      errorMessage = t0('error');
-      emptyDataMessage = t0('noData');
-      defaultMessage = !accountData ? t0('connectWallet') : unsupported ? t0('networkNotSupported') : null;
-      break;
-    case 'payeesList':
-      errorMessage = t0('error');
-      emptyDataMessage = t0('noData');
-      defaultMessage = !accountData ? t0('connectWallet') : unsupported ? t0('networkNotSupported') : null;
-      break;
-    case 'vestingStreams':
-      errorMessage = t0('error');
-      emptyDataMessage = 'Bond for MPX to see your vesting contracts';
-      defaultMessage = !accountData
-        ? 'Connect Wallet to see your vesting contracts'
-        : unsupported
-        ? 'Network not supported, please switch to Fantom Opera'
-        : null;
-      break;
-    case 'payments':
-      errorMessage = t0('error');
-      emptyDataMessage = 'Create a Payment to see a list of payments';
-      defaultMessage = !accountData
-        ? 'Connect Wallet to see your payments'
-        : unsupported
-        ? t0('networkNotSupported')
-        : null;
-      break;
-  }
+  const errorMessage = "Couldn't load data";
+  const emptyDataMessage = 'Bond for MPX to see your vesting contracts';
+  const defaultMessage = !accountData
+    ? 'Connect Wallet to see your vesting contracts'
+    : unsupported
+    ? 'Network not supported, please switch to Fantom Opera'
+    : null;
 
   return (
     <FallbackContainer>

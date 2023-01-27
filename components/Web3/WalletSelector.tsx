@@ -4,7 +4,6 @@ import { useChainExplorer, useIsMounted } from '~/hooks';
 import { formatAddress } from '~/utils/address';
 import { Dialog, DialogHeading, DisclosureState } from 'ariakit';
 import { XIcon } from '@heroicons/react/solid';
-import { useTranslations } from 'next-intl';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
 
 interface Props {
@@ -40,24 +39,22 @@ export const WalletSelector = ({ dialog }: Props) => {
 
   const formattedAddress = accountData && formatAddress(accountData.address);
 
-  const t = useTranslations('Common');
-
   return (
     <Dialog state={dialog} className="dialog">
       {accountData ? (
         <>
           <DialogHeading className="text-base font-medium leading-6 text-neutral-700 dark:text-neutral-200">
-            <span>{t('account')}</span>
+            <span>Account</span>
             <button
               className="absolute top-[18px] right-4 rounded hover:bg-neutral-200 dark:hover:bg-zinc-800"
               onClick={dialog.toggle}
             >
-              <span className="sr-only">{t('close')}</span>
+              <span className="sr-only">Close</span>
               <XIcon className="h-5 w-5" />
             </button>
           </DialogHeading>
           <div className="mt-3 flex flex-col gap-2">
-            <p className="text-sm font-thin">{`${t('connectedWith')} ${accountData.connector?.name}`}</p>
+            <p className="text-sm font-thin">{`${'Connected With'} ${accountData.connector?.name}`}</p>
             <p className="flex items-center gap-4 break-words">
               <span className="truncate">
                 {accountData.ens?.name ? `${accountData.ens?.name} (${formattedAddress})` : accountData.address}
@@ -82,19 +79,19 @@ export const WalletSelector = ({ dialog }: Props) => {
                 dialog.toggle();
               }}
             >
-              {t('disconnect')}
+              Disconnect
             </button>
           </div>
         </>
       ) : (
         <>
           <DialogHeading className="text-base font-medium leading-6 text-neutral-700 dark:text-neutral-200">
-            <span>{t('connectWallet')}</span>
+            <span>Connect a Wallet</span>
             <button
               className="absolute top-[18px] right-4 rounded hover:bg-neutral-200 dark:hover:bg-zinc-800"
               onClick={dialog.toggle}
             >
-              <span className="sr-only">{t('close')}</span>
+              <span className="sr-only">Close</span>
               <XIcon className="h-5 w-5" />
             </button>
           </DialogHeading>

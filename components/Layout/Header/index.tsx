@@ -2,7 +2,6 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
 import { DisclosureState } from 'ariakit';
-import { useTranslations } from 'next-intl';
 import { MoonIcon, SunIcon } from '@heroicons/react/outline';
 import { Account, WalletSelector } from '~/components/Web3';
 import { Logo } from '~/components/Icons';
@@ -11,8 +10,6 @@ import { useIsMounted } from '~/hooks';
 
 const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
   const [{ data }] = useAccount();
-
-  const t = useTranslations('Common');
 
   const { setTheme, resolvedTheme } = useTheme();
 
@@ -36,7 +33,7 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
           </>
         ) : (
           <button className="nav-button-v2 hidden hover:opacity-80  md:block" onClick={walletDialog.toggle}>
-            {t('connectWallet')}
+            Connect a Wallet
           </button>
         )}
 

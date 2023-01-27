@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import * as React from 'react';
 import Layout from '~/components/Layout';
 import VestingSection from '~/components/Vesting';
@@ -13,15 +13,6 @@ const Home: NextPage = () => {
       </Layout>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  // Pass data to the page via props
-  return {
-    props: {
-      messages: (await import(`translations/${locale}.json`)).default,
-    },
-  };
 };
 
 export default Home;

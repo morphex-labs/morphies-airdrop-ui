@@ -10,52 +10,6 @@ export interface IToken {
   llamaTokenContract: Contract;
 }
 
-export interface IBalance {
-  name: string;
-  address: string;
-  symbol: string;
-  amount: string;
-  logoURI: string;
-  contractAddress: string;
-  tokenDecimals: number;
-  tokenContract: Contract;
-  totalPaidPerSec: string | null;
-  lastPayerUpdate: string | null;
-}
-
-export interface IPayer {
-  name: string;
-  address: string;
-  symbol: string;
-  contractAddress: string;
-  tokenDecimals: number;
-  tokenContract: Contract;
-  totalPaidPerSec: string | null;
-  lastPayerUpdate: string | null;
-}
-
-export interface IStream {
-  llamaContractAddress: string;
-  amountPerSec: string;
-  createdTimestamp: string;
-  payerAddress: string;
-  payerEns?: string | null;
-  payeeEns?: string | null;
-  payeeAddress: string;
-  streamId: string;
-  streamType: 'outgoingStream' | 'incomingStream';
-  token: { address: string; name: string; decimals: number; symbol: string };
-  tokenName: string;
-  tokenSymbol: string;
-  tokenContract: Contract;
-  llamaTokenContract: Contract;
-  historicalEvents: { eventType: string; txHash: string; createdTimestamp: string }[];
-  paused: boolean;
-  pausedAmount: string;
-  lastPaused: string;
-  reason: string | null | undefined;
-}
-
 export interface ITokenList {
   [key: string]: {
     chainId: number;
@@ -105,18 +59,4 @@ export interface IVesting {
   disabledAt: string;
   timestamp: number;
   reason?: string | null;
-}
-
-export interface IPayments {
-  id: string;
-  tokenName: string;
-  tokenSymbol: string;
-  tokenAddress: string;
-  tokenDecimals: number;
-  payer: string;
-  payee: string;
-  amount: number;
-  release: number;
-  active: boolean;
-  revoked: boolean;
 }
