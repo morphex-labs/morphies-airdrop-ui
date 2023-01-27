@@ -6,15 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "graphql:generate": "graphql-codegen --config codegen.yml",
-    "prepare": "yarn graphql:generate"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@antefinance/ante-widget-react": "^0.1.2",
     "@fontsource/exo-2": "^4.5.7",
-    "@gnosis.pm/safe-apps-provider": "^0.11.0",
-    "@gnosis.pm/safe-apps-sdk": "^7.3.0",
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^1.0.6",
     "@tanstack/react-table": "^8.5.13",
@@ -26,7 +21,6 @@
     "echarts": "^5.3.3",
     "ethereum-multicall": "^2.12.0",
     "ethers": "^5.6.1",
-    "graphql": "^16.5.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.23",
     "lodash.debounce": "^4.0.8",
@@ -45,10 +39,6 @@
     "zustand": "^4.1.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^2.6.2",
-    "@graphql-codegen/typescript": "^2.5.1",
-    "@graphql-codegen/typescript-operations": "^2.4.2",
-    "@graphql-codegen/typescript-react-query": "^3.5.14",
     "@next/bundle-analyzer": "^12.1.5",
     "@tailwindcss/forms": "^0.5.3",
     "@types/lodash.debounce": "^4.0.6",

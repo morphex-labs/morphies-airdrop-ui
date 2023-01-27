@@ -20,10 +20,6 @@ const Fallback = ({ isLoading, isError, noData, type, supressWalletConnection, s
 
   const { unsupported } = useNetworkProvider();
   const t0 = useTranslations('Common');
-  const t1 = useTranslations('Balances');
-  const t2 = useTranslations('Streams');
-  const t3 = useTranslations('History');
-  const t4 = useTranslations('Payees');
 
   let errorMessage = t0('error');
   let emptyDataMessage = '';
@@ -31,24 +27,24 @@ const Fallback = ({ isLoading, isError, noData, type, supressWalletConnection, s
 
   switch (type) {
     case 'balances':
-      errorMessage = t1('error');
-      emptyDataMessage = t1('noData');
-      defaultMessage = !accountData ? t1('connectWallet') : unsupported ? t0('networkNotSupported') : null;
+      errorMessage = t0('error');
+      emptyDataMessage = t0('noData');
+      defaultMessage = !accountData ? t0('connectWallet') : unsupported ? t0('networkNotSupported') : null;
       break;
     case 'streams':
-      errorMessage = t2('error');
-      emptyDataMessage = t2('noData');
-      defaultMessage = !accountData ? t2('connectWallet') : unsupported ? t0('networkNotSupported') : null;
+      errorMessage = t0('error');
+      emptyDataMessage = t0('noData');
+      defaultMessage = !accountData ? t0('connectWallet') : unsupported ? t0('networkNotSupported') : null;
       break;
     case 'history':
-      errorMessage = t3('error');
-      emptyDataMessage = t3('noData');
-      defaultMessage = !accountData ? t3('connectWallet') : unsupported ? t0('networkNotSupported') : null;
+      errorMessage = t0('error');
+      emptyDataMessage = t0('noData');
+      defaultMessage = !accountData ? t0('connectWallet') : unsupported ? t0('networkNotSupported') : null;
       break;
     case 'payeesList':
-      errorMessage = t4('error');
-      emptyDataMessage = t4('noData');
-      defaultMessage = !accountData ? t4('connectWallet') : unsupported ? t0('networkNotSupported') : null;
+      errorMessage = t0('error');
+      emptyDataMessage = t0('noData');
+      defaultMessage = !accountData ? t0('connectWallet') : unsupported ? t0('networkNotSupported') : null;
       break;
     case 'vestingStreams':
       errorMessage = t0('error');
