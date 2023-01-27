@@ -5,7 +5,7 @@ import { useBalance, useAccount, useProvider } from 'wagmi';
 import { useApproveToken, useCheckTokenApproval } from '~/queries/useTokenApproval';
 import useSwapToken from '~/queries/useSwapToken';
 import { createContractAndCheckApproval } from '../Form/utils';
-import { MIGRATOR_FANTOM, PILLS_ADDRESS, USDC_ADDRESS, WFTM_ADDRESS } from '~/lib/contracts';
+import { MIGRATOR_FANTOM, USDC_ADDRESS, WFTM_ADDRESS } from '~/lib/contracts';
 import { useDialogState } from 'ariakit';
 import { BeatLoader } from 'react-spinners';
 import { TransactionDialog } from '../Dialog';

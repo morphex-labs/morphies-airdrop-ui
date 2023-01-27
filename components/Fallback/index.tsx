@@ -52,11 +52,11 @@ const Fallback = ({ isLoading, isError, noData, type, supressWalletConnection, s
       break;
     case 'vestingStreams':
       errorMessage = t0('error');
-      emptyDataMessage = 'Create a Vesting Contract to see a list of your streams';
+      emptyDataMessage = 'Bond for MPX to see your vesting contracts';
       defaultMessage = !accountData
-        ? 'Connect Wallet to see your vesting streams'
+        ? 'Connect Wallet to see your vesting contracts'
         : unsupported
-        ? t0('networkNotSupported')
+        ? 'Network not supported, please switch to Fantom Opera'
         : null;
       break;
     case 'payments':
