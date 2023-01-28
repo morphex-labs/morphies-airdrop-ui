@@ -163,7 +163,7 @@ const FtmCard = () => {
         {checkingApproval || approvingToken ? (
           <BeatLoader size={6} color="white" />
         ) : isApproved ? (
-          'Swap'
+          'Bond'
         ) : (
           'Approve Token'
         )}
@@ -297,7 +297,7 @@ const UsdcCard = () => {
         {checkingApproval || approvingToken ? (
           <BeatLoader size={6} color="white" />
         ) : isApproved ? (
-          'Swap'
+          'Bond'
         ) : (
           'Approve Token'
         )}
