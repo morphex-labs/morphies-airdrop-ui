@@ -1,16 +1,17 @@
-import * as React from 'react';
-import Fallback from '~/components/Fallback';
-import useGetVestingInfo from '~/queries/useGetVestingInfo';
-import type { IVesting } from '~/types';
-import { useDialogState } from 'ariakit';
-import { SubmitButton } from '../Form';
-import { useAccount, useContractWrite } from 'wagmi';
-import { vestingContractReadableABI } from '~/lib/abis/vestingContractReadable';
-import toast from 'react-hot-toast';
-import { TransactionDialog } from '../Dialog';
-import { BeatLoader } from 'react-spinners';
 import { ethers } from 'ethers';
-import { MPX_ADDRESS } from '~/lib/contracts';
+import toast from 'react-hot-toast';
+import { FC, useState } from 'react';
+import { useDialogState } from 'ariakit';
+import { BeatLoader } from 'react-spinners';
+import { useAccount, useContractWrite } from 'wagmi';
+
+import Fallback from '../Fallback';
+import { SubmitButton } from '../Form';
+import type { IVesting } from '../../types';
+import { TransactionDialog } from '../Dialog';
+import { MPX_ADDRESS } from '../../lib/contracts';
+import useGetVestingInfo from '../../queries/useGetVestingInfo';
+import { vestingContractReadableABI } from '../../lib/abis/vestingContractReadable';
 
 interface ISecondsByDuration {
   [key: string]: number;
@@ -49,7 +50,7 @@ export default function VestingSection() {
   );
 }
 
-const VestingItem: React.FC<{ data: IVesting }> = ({
+const VestingItem: FC<{ data: IVesting }> = ({
   data: { contract, totalClaimed, totalLocked, unclaimed, endTime, startTime, cliffLength },
 }) => {
   const [{ data: accountData }] = useAccount();
@@ -57,7 +58,7 @@ const VestingItem: React.FC<{ data: IVesting }> = ({
 
   const amountToClaim = ethers.utils.parseUnits(unclaimed, 18);
   const transactionDialog = useDialogState();
-  const [transactionHash, setTransactionHash] = React.useState<string>('');
+  const [transactionHash, setTransactionHash] = useState<string>('');
 
   const [{ loading }, claim] = useContractWrite(
     {

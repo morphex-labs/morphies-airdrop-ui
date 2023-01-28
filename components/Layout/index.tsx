@@ -1,12 +1,13 @@
-import * as React from 'react';
 import Head from 'next/head';
-import { useDialogState } from 'ariakit';
-import Header from './Header';
-import CustomToast from '~/components/CustomToast';
+import { ReactNode } from 'react';
 import classNames from 'classnames';
+import { useDialogState } from 'ariakit';
+
+import Header from './Header';
+import CustomToast from '../CustomToast';
 
 interface ILayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }
 

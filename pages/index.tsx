@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import Layout from '~/components/Layout';
-import VestingSection from '~/components/Vesting';
-import BondingSection from '~/components/Bonding';
-import Disclaimer from '~/components/Disclaimer';
+
+import Layout from '../components/Layout';
+import VestingSection from '../components/Vesting';
+import BondingSection from '../components/Bonding';
+import Disclaimer from '../components/Disclaimer';
 
 const Home: NextPage = () => {
   const [showDisclaimer, setShowDisclaimer] = useState(false);
