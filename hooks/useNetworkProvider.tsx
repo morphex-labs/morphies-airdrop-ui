@@ -24,14 +24,8 @@ export const useNetworkProvider = () => {
     }
   }
 
-  if (
-    pathname === '/salaries/[chain]/[address]' ||
-    pathname === '/salaries/withdraw' ||
-    pathname === '/salaries/withdraw/[chain]/[stream]' ||
-    pathname === '/vesting/[chain]/[address]' ||
-    pathname === '/yearn'
-  ) {
-    const chainParam = pathname === '/yearn' ? 'ethereum' : query.chain;
+  if (pathname === '/vesting/[chain]/[address]') {
+    const chainParam = query.chain;
 
     const isParamChainId = chainParam && !Number.isNaN(Number(chainParam));
 
@@ -54,10 +48,9 @@ export const useNetworkProvider = () => {
 
   return {
     provider: chainDetails ? chainDetails.chainProviders : null,
-    network: name?.toLowerCase() === 'mainnet' ? 'Ethereum' : name,
+    network: name,
     chainId,
     nativeCurrency: data.chain?.nativeCurrency,
     unsupported: data.chain?.unsupported,
-    tokenListId: networkDetails[chainId ?? 0]?.tokenListId,
   };
 };

@@ -4,7 +4,6 @@ import { DisclosureState } from 'ariakit';
 import { Dialog, DialogDismiss } from 'ariakit/dialog';
 import classNames from 'classnames';
 import { useChainExplorer } from '~/hooks';
-import { useTranslations } from 'next-intl';
 
 interface FormDialogProps {
   dialog: DisclosureState;
@@ -13,15 +12,13 @@ interface FormDialogProps {
 }
 
 export const TransactionDialog = ({ dialog, className, transactionHash }: FormDialogProps) => {
-  const { url, name, id } = useChainExplorer();
-
-  const t = useTranslations('Common');
+  const { url, id } = useChainExplorer();
 
   return (
     <Dialog state={dialog} className={classNames('dialog', className)}>
       <header className="font-exo relative">
         <DialogDismiss className="ml-auto flex items-start justify-end">
-          <span className="sr-only">{t('close')}</span>
+          <span className="sr-only">Close</span>
           <XIcon className="h-6 w-6" />
         </DialogDismiss>
       </header>
@@ -43,17 +40,17 @@ export const TransactionDialog = ({ dialog, className, transactionHash }: FormDi
           <line x1="12" y1="16" x2="12" y2="8"></line>
         </svg>
       </div>
-      <h1 className="text-center">{t('transactionSubmitted')}</h1>
+      <h1 className="text-center">Transaction Submitted</h1>
       <a
-        className="mt-1 mb-8 text-center text-sm text-green-700"
+        className="mt-1 mb-8 text-center text-sm text-green-500"
         href={url ? (id === 82 || id === 1088 ? `${url}tx/${transactionHash}` : `${url}/tx/${transactionHash}`) : '/'}
         target="_blank"
         rel="noopener noreferrer"
       >
-        {t('viewOnExplorer', { explorer: name || 'Block Explorer' })}
+        View on FTMScan
       </a>
       <button className="form-submit-button" onClick={dialog.toggle}>
-        {t('close')}
+        Close
       </button>
     </Dialog>
   );

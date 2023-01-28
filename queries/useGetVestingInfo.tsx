@@ -1,14 +1,15 @@
-import { BaseProvider } from '@ethersproject/providers';
-import BigNumber from 'bignumber.js';
-import { ContractCallContext, Multicall } from 'ethereum-multicall';
 import { ethers } from 'ethers';
-import { useNetworkProvider } from '~/hooks';
+import BigNumber from 'bignumber.js';
 import { useQuery } from 'react-query';
-import type { IVesting } from '~/types';
-import { networkDetails } from '~/lib/networkDetails';
 import { erc20ABI, useAccount } from 'wagmi';
-import { vestingEscrowABI } from '~/lib/abis/vestingEscrow';
-import { vestingFactoryABI } from '~/lib/abis/vestingFactory';
+import { BaseProvider } from '@ethersproject/providers';
+import { ContractCallContext, Multicall } from 'ethereum-multicall';
+
+import type { IVesting } from '../types';
+import { useNetworkProvider } from '../hooks';
+import { networkDetails } from '../lib/networkDetails';
+import { vestingEscrowABI } from '../lib/abis/vestingEscrow';
+import { vestingFactoryABI } from '../lib/abis/vestingFactory';
 
 async function getVestingInfo(userAddress: string | undefined, provider: BaseProvider | null, chainId: number | null) {
   try {
@@ -83,8 +84,8 @@ async function getVestingInfo(userAddress: string | undefined, provider: BasePro
         const tokenReturnContext = tokenContractCallResults[vestingReturnContext[3].returnValues[0]].callsReturnContext;
         results.push({
           contract: key,
-          unclaimed: new BigNumber(vestingReturnContext[0].returnValues[0].hex).toString(),
-          locked: new BigNumber(vestingReturnContext[1].returnValues[0].hex).toString(),
+          unclaimed: ethers.utils.formatUnits(vestingReturnContext[0].returnValues[0].hex, 18),
+          locked: ethers.utils.formatUnits(vestingReturnContext[1].returnValues[0].hex, 18),
           recipient: recipient,
           token: vestingReturnContext[3].returnValues[0],
           tokenName: tokenReturnContext[0].returnValues[0],
@@ -93,8 +94,8 @@ async function getVestingInfo(userAddress: string | undefined, provider: BasePro
           startTime: new BigNumber(vestingReturnContext[4].returnValues[0].hex).toString(),
           endTime: new BigNumber(vestingReturnContext[5].returnValues[0].hex).toString(),
           cliffLength: new BigNumber(vestingReturnContext[6].returnValues[0].hex).toString(),
-          totalLocked: new BigNumber(vestingReturnContext[7].returnValues[0].hex).toString(),
-          totalClaimed: new BigNumber(vestingReturnContext[8].returnValues[0].hex).toString(),
+          totalLocked: ethers.utils.formatUnits(vestingReturnContext[7].returnValues[0].hex, 18),
+          totalClaimed: ethers.utils.formatUnits(vestingReturnContext[8].returnValues[0].hex, 18),
           admin: admin,
           disabledAt: new BigNumber(vestingReturnContext[10].returnValues[0].hex).toString(),
           timestamp: Date.now() / 1e3,
@@ -107,6 +108,7 @@ async function getVestingInfo(userAddress: string | undefined, provider: BasePro
     return null;
   }
 }
+
 export default function useGetVestingInfo() {
   const { provider, chainId } = useNetworkProvider();
   const [{ data: accountData }] = useAccount();
@@ -117,14 +119,4 @@ export default function useGetVestingInfo() {
       refetchInterval: 30000,
     }
   );
-}
-interface IVestingInfoByQueryParams {
-  address: string;
-  chainId: number | null;
-  provider: BaseProvider | null;
-}
-export function useGetVestingInfoByQueryParams({ address, chainId, provider }: IVestingInfoByQueryParams) {
-  return useQuery(['vestingInfo', address, chainId], () => getVestingInfo(address, provider, chainId), {
-    refetchInterval: 30000,
-  });
 }

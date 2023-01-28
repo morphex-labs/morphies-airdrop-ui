@@ -1,27 +1,37 @@
-import type { GetServerSideProps, NextPage } from 'next';
-import * as React from 'react';
-import Layout from '~/components/Layout';
-// import Balance from '~/components/Balance';
-// import { HistorySection } from '~/components/History';
-// import { StreamSection } from '~/components/Stream';
+import type { NextPage } from 'next';
+import { useEffect, useState } from 'react';
+
+import Layout from '../components/Layout';
+import VestingSection from '../components/Vesting';
+import BondingSection from '../components/Bonding';
+import Disclaimer from '../components/Disclaimer';
 
 const Home: NextPage = () => {
-  return (
-    <Layout className="flex flex-col gap-12">
-      {/* <Balance /> */}
-      {/* <StreamSection />
-      <HistorySection /> */}
-    </Layout>
-  );
-};
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  // Pass data to the page via props
-  return {
-    props: {
-      messages: (await import(`translations/${locale}.json`)).default,
-    },
+  const checkDisclaimerShown = () => {
+    const isDisclaimerShown = localStorage.getItem('x-morphex-bonds-disclaimer-accepted');
+
+    if (isDisclaimerShown) {
+      setShowDisclaimer(false);
+    } else {
+      setShowDisclaimer(true);
+    }
   };
+
+  useEffect(() => {
+    checkDisclaimerShown();
+  }, []);
+
+  return (
+    <div className="mx-auto my-0 w-full max-w-[1280px] px-4 sm:px-6">
+      <Layout className="flex flex-col gap-12">
+        <Disclaimer isOpen={showDisclaimer} setIsOpen={setShowDisclaimer} />
+        <BondingSection />
+        <VestingSection />
+      </Layout>
+    </div>
+  );
 };
 
 export default Home;

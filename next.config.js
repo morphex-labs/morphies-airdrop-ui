@@ -7,25 +7,11 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   i18n: {
-    locales: ['en', 'fr-FR', 'pt-PT', 'es-ES', 'el-GR', 'ja-JP'],
+    locales: ['en'],
     defaultLocale: 'en',
   },
   images: {
-    domains: ['raw.githubusercontent.com', 'assets.coingecko.com', 'defillama.com'],
-  },
-  async redirects() {
-    return [
-      {
-        source: '/salaries',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/salaries/create',
-        destination: '/create',
-        permanent: true,
-      },
-    ];
+    domains: ['raw.githubusercontent.com', 'assets.coingecko.com'],
   },
 };
 

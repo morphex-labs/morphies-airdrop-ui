@@ -1,6 +1,16 @@
 import * as React from 'react';
-import { useTranslations } from 'next-intl';
-import type { ITokenBalance } from '~/queries/useTokenBalances';
+import { Contract } from 'ethers';
+
+interface ITokenBalance {
+  name: string;
+  tokenAddress: string;
+  decimals: number;
+  tokenContract: Contract;
+  llamaContractAddress: string;
+  symbol: string;
+  logoURI: string;
+  balance: string | null;
+}
 
 interface IProps {
   inputAmount: string;
@@ -10,23 +20,16 @@ interface IProps {
   id: string;
 }
 
-export function InputAmountWithMaxButton({
-  inputAmount,
-  handleInputChange,
-  selectedToken,
-  fillMaxAmountOnClick,
-  id,
-}: IProps) {
-  const t = useTranslations('Forms');
+export function InputAmountWithMaxButton({ inputAmount, handleInputChange, fillMaxAmountOnClick, id }: IProps) {
   return (
     <div>
       <label className="input-label" htmlFor={id}>
-        {t('amountToDeposit')}
+        How much would you like to bond?
       </label>
       <div className="relative flex">
         <input
           className="input-field"
-          name="amountToDeposit"
+          name="amountToBond"
           id={id}
           required
           autoComplete="off"
@@ -45,10 +48,9 @@ export function InputAmountWithMaxButton({
         <button
           type="button"
           className="absolute bottom-[5px] top-[10px] right-[5px] rounded-lg border border-lp-gray-1 px-2 text-xs font-bold disabled:cursor-not-allowed dark:border-lp-gray-2"
-          disabled={!selectedToken}
           onClick={fillMaxAmountOnClick}
         >
-          {t('max')}
+          MAX
         </button>
       </div>
     </div>

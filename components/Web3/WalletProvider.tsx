@@ -1,31 +1,23 @@
 import * as React from 'react';
-import { defaultProvider, infuraId } from '~/utils/constants';
 import { networkDetails } from '~/lib/networkDetails';
 import { chains } from '~/lib/chains';
-import { GnosisConnector } from '~/utils/GnosisConnector';
 import { Connector, Provider } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import { ethers } from 'ethers';
 
 const connectors = () => {
-  return process.env.NEXT_PUBLIC_SAFE === 'true'
-    ? [
-        new GnosisConnector({
-          chains,
-        }),
-      ]
-    : [
-        new InjectedConnector({
-          chains,
-          options: { shimDisconnect: true },
-        }),
-        new WalletConnectConnector({
-          options: {
-            infuraId,
-            qrcode: true,
-          },
-        }),
-      ];
+  return [
+    new InjectedConnector({
+      chains,
+      options: { shimDisconnect: true },
+    }),
+    new WalletConnectConnector({
+      options: {
+        qrcode: true,
+      },
+    }),
+  ];
 };
 
 // Set up providers
@@ -33,7 +25,7 @@ type ProviderConfig = { chainId?: number; connector?: Connector };
 
 const provider = ({ chainId }: ProviderConfig) => {
   const chainDetails = chainId && networkDetails[chainId];
-  return chainDetails ? chainDetails.chainProviders : defaultProvider;
+  return chainDetails ? chainDetails.chainProviders : new ethers.providers.JsonRpcProvider('https://rpc.ftm.tools/');
 };
 
 type Props = {
