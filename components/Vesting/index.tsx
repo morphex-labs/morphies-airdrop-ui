@@ -1,5 +1,4 @@
 import * as React from 'react';
-import BigNumber from 'bignumber.js';
 import Fallback from '~/components/Fallback';
 import useGetVestingInfo from '~/queries/useGetVestingInfo';
 import type { IVesting } from '~/types';
@@ -11,6 +10,7 @@ import toast from 'react-hot-toast';
 import { TransactionDialog } from '../Dialog';
 import { BeatLoader } from 'react-spinners';
 import { ethers } from 'ethers';
+import { MPX_ADDRESS } from '~/lib/contracts';
 
 interface ISecondsByDuration {
   [key: string]: number;
@@ -27,21 +27,22 @@ const secondsByDuration: ISecondsByDuration = {
 
 export default function VestingSection() {
   const { data, isLoading, error } = useGetVestingInfo();
-  console.log('data', data);
 
   return (
     <section className="-mt-2 w-full">
       <div className="section-header flex w-full flex-wrap items-center justify-between">
-        <h1 className="font-exo">MPX Vesting</h1>
+        <h1 className="font-exo">MPX Vesting (2 months initial cliff, 1 year linear vesting)</h1>
       </div>
 
       {isLoading || error || !data || data.length < 1 ? (
         <Fallback isLoading={isLoading} isError={error ? true : false} noData={true} showLoader={true} />
       ) : (
         <div className="grid grid-cols-4 gap-4">
-          {data.map((d: IVesting) => (
-            <VestingItem key={d.contract} data={d} />
-          ))}
+          {data
+            .filter((d: IVesting) => d.token === MPX_ADDRESS)
+            .map((d: IVesting) => (
+              <VestingItem key={d.contract} data={d} />
+            ))}
         </div>
       )}
     </section>
@@ -83,8 +84,8 @@ const VestingItem: React.FC<{ data: IVesting }> = ({
   }
 
   const totalVesting = Number(totalLocked).toFixed(2);
-  const claimed = Number(totalClaimed).toFixed(3);
-  const withdrawable = Number(unclaimed).toFixed(3);
+  const claimed = Number(totalClaimed).toFixed(2);
+  const withdrawable = Number(unclaimed).toFixed(2);
   const vestingEndTime = new Date(Number(endTime) * 1000).toLocaleDateString('en-GB');
 
   function getStatus() {
@@ -106,23 +107,23 @@ const VestingItem: React.FC<{ data: IVesting }> = ({
     <div className="flex flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
       <div className="mb-4 flex w-full flex-row justify-between">
         <h4 className="text-md">Total Amount:</h4>
-        <p className="text-[#b5b5b5] dark:text-[#b5bac1]">{totalVesting}</p>
+        <p className="text-[#4f4f4f] dark:text-[#b5bac1]">{totalVesting}</p>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between">
         <h4 className="text-md">Status:</h4>
-        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{getStatus()}</p>
+        <p className="text-sm text-[#4f4f4f] dark:text-[#b5bac1]">{getStatus()}</p>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between">
         <h4 className="text-md">Claimed:</h4>
-        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{claimed}</p>
+        <p className="text-sm text-[#4f4f4f] dark:text-[#b5bac1]">{claimed}</p>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between">
         <h4 className="text-md">Withdrawable:</h4>
-        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{withdrawable}</p>
+        <p className="text-sm text-[#4f4f4f] dark:text-[#b5bac1]">{withdrawable}</p>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between">
         <h4 className="text-md">End Date:</h4>
-        <p className="text-sm text-[#b5b5b5] dark:text-[#b5bac1]">{vestingEndTime}</p>
+        <p className="text-sm text-[#4f4f4f] dark:text-[#b5bac1]">{vestingEndTime}</p>
       </div>
 
       <SubmitButton className="mt-4" onClick={handleConfirm}>

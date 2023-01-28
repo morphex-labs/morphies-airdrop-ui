@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import type { ITransactionError, ITransactionSuccess } from '~/types';
 import { useSigner } from 'wagmi';
-import { migratorABI } from '~/lib/abis/migrator';
+import { bonderABI } from '~/lib/abis/bonder';
 
 interface IUseSwapToken {
   contractAddress: string;
@@ -19,11 +19,11 @@ const swap = async ({ signer, contractAddress, amountToDeposit }: ISwapToken) =>
     if (!signer) {
       throw new Error("Couldn't get signer");
     } else {
-      const contract = new ethers.Contract(contractAddress, migratorABI, signer);
-      return await contract.swap(amountToDeposit);
+      const contract = new ethers.Contract(contractAddress, bonderABI, signer);
+      return await contract.bond(amountToDeposit);
     }
   } catch (error: any) {
-    throw new Error(error.message || (error?.reason ?? "Couldn't swap token"));
+    throw new Error(error.message || (error?.reason ?? "Couldn't bond token"));
   }
 };
 
@@ -34,20 +34,20 @@ export default function useSwapToken() {
   return useMutation<ITransactionSuccess, ITransactionError, IUseSwapToken, unknown>(
     ({ contractAddress, amountToDeposit }: IUseSwapToken) => swap({ signer, contractAddress, amountToDeposit }),
     {
-      onError: (error) => {
-        toast.error(error.message || "Couldn't swap token");
+      onError: () => {
+        toast.error("Couldn't bond token. Check if your input fits within the bonding caps.");
       },
       onSuccess: (data) => {
-        const toastId = toast.loading('Confirming swap');
+        const toastId = toast.loading('Confirming bond');
         data.wait().then((res) => {
           toast.dismiss(toastId);
 
           queryClient.invalidateQueries();
 
           if (res.status === 1) {
-            toast.success('Swap success!');
+            toast.success('Bond success!');
           } else {
-            toast.error('Swap failed!');
+            toast.error('Bond failed!');
           }
         });
       },
