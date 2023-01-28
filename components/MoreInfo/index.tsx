@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 
 export default function MoreInfo({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (v: boolean) => void }) {
   function closeModal() {
@@ -38,25 +38,23 @@ export default function MoreInfo({ isOpen, setIsOpen }: { isOpen: boolean; setIs
                     More Info
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className="mb-2 text-sm text-gray-500 dark:text-[#cecece]">
-                      Through this interface, you're able to get in early on Morphex before launch by bonding USDC or
-                      wFTM for MPX.
+                    <p className="mb-4 text-sm text-gray-500 dark:text-[#cecece]">
+                      Through this interface, you're able to to bond USDC or wFTM for vested MPX. Treasury will use
+                      bonded funds for protocol-owned liquidity, incentives, and operational budgets.
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-[#cecece]">Minimum bond amount: XXX</p>
-                    <p className="mb-2 text-sm text-gray-500 dark:text-[#cecece]">Maximum bond amount: XXX</p>
-                    <p className="mb-2 text-sm text-gray-500 dark:text-[#cecece]">
-                      First, input the amount of USDC or wFTM you'd like to bond for MPX.
+                    <p className="mb-2 text-sm text-gray-500 dark:text-[#cecece]">Bonding/Vesting terms:</p>
+                    <p className="text-sm text-gray-500 dark:text-[#cecece]"> - Minimum bond amount: $500</p>
+                    <p className="text-sm text-gray-500 dark:text-[#cecece]"> - Maximum bond amount: $5000</p>
+                    <p className="text-sm text-gray-500 dark:text-[#cecece]"> - 60 days initial cliff</p>
+                    <p className="mb-4 text-sm text-gray-500 dark:text-[#cecece]">
+                      - 1 year linear vesting (starting from the cliff end)
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-[#cecece]">Rates:</p>
-                    <p className="text-sm text-gray-500 dark:text-[#cecece]">1 MPX = 0.1 USDC</p>
-                    <p className="mb-2 text-sm text-gray-500 dark:text-[#cecece]">1 MPX = 0.22 wFTM</p>
+                    <p className="mb-2 text-sm text-gray-500 dark:text-[#cecece]">
+                      First, input the amount of USDC or wFTM you'd like to bond for MPX. Click "Approve" and then
+                      "Bond". Keep in mind that once you've bonded, it can't be undone.
+                    </p>
                     <p className="mb-2 text-sm text-gray-500 dark:text-[#cecece]">
                       Once you've approved and confirmed, a unique vesting contract will be created just for you.
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-[#cecece]">Vesting terms:</p>
-                    <p className="text-sm text-gray-500 dark:text-[#cecece]">60 days initial cliff</p>
-                    <p className="text-sm text-gray-500 dark:text-[#cecece]">
-                      1-year linear vesting (beginning from the moment the cliff is over)
                     </p>
                   </div>
 
