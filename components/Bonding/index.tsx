@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import BigNumber from 'bignumber.js';
 import { InputAmountWithMaxButton, SubmitButton } from '../Form';
-import { useBalance, useAccount, useProvider, useContractRead } from 'wagmi';
+import { useAccount, useProvider } from 'wagmi';
 import { useApproveToken, useCheckTokenApproval } from '~/queries/useTokenApproval';
 import useSwapToken from '~/queries/useSwapToken';
 import { createContractAndCheckApproval } from '../Form/utils';
-import { BONDER_WFTM, BONDER_USDC, USDC_ADDRESS, WFTM_ADDRESS, MPX_ADDRESS } from '~/lib/contracts';
-import { bonderABI } from '~/lib/abis/bonder';
+import { BONDER_WFTM, BONDER_USDC, USDC_ADDRESS, WFTM_ADDRESS } from '~/lib/contracts';
 import { useDialogState } from 'ariakit';
 import { BeatLoader } from 'react-spinners';
 import { TransactionDialog } from '../Dialog';
 import toast from 'react-hot-toast';
 import MoreInfo from '../MoreInfo';
-import { ethers } from 'ethers';
+import useGetBondingInfoUsdc from '~/queries/useGetBondingInfoUsdc';
+import useGetBondingInfoWftm from '~/queries/useGetBondingInfoWftm';
 
 export default function BondingSection() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,39 +43,23 @@ const FtmCard = () => {
 
   const [{ data: accountData }] = useAccount();
   const provider = useProvider();
-  const [{ data: balance }] = useBalance({
-    addressOrName: accountData?.address,
-    token: ftmAddress,
-  });
-  const [{ data: bonderMpxBalance }] = useBalance({
-    addressOrName: BONDER_WFTM,
-    token: MPX_ADDRESS,
-  });
-  const [{ data: minCap }] = useContractRead({ addressOrName: BONDER_WFTM, contractInterface: bonderABI }, 'minCap');
-  const [{ data: maxCap }] = useContractRead({ addressOrName: BONDER_WFTM, contractInterface: bonderABI }, 'maxCap');
-  const [{ data: ratio }] = useContractRead({ addressOrName: BONDER_WFTM, contractInterface: bonderABI }, 'ratio');
-  const [{ data: contributions }] = useContractRead(
-    {
-      addressOrName: BONDER_WFTM,
-      contractInterface: bonderABI,
-    },
-    'contributions',
-    { args: [accountData?.address] }
-  );
 
-  const trueContributions = contributions ? Number(ethers.utils.formatUnits(contributions, 18)).toFixed(0) : '0';
-  const trueMinCap = minCap ? Number(ethers.utils.formatUnits(minCap, 18)).toFixed(0) : '0';
-  const trueMaxCap = maxCap ? Number(ethers.utils.formatUnits(maxCap, 18)).toFixed(0) : '0';
-  const trueRatio = ((1 / Number(ratio)) * 1000).toFixed(4);
+  const { data } = useGetBondingInfoWftm();
 
-  const bonderMpxBalanceFormatted = bonderMpxBalance?.formatted ? Number(bonderMpxBalance?.formatted).toFixed(0) : '0';
-  const bonderMpxBalanceWFTM = Number(bonderMpxBalanceFormatted) * Number(trueRatio);
-
-  const ftmBalance = balance?.formatted ? Number(balance.formatted).toFixed(0) : '-';
+  const {
+    tokenBalance = '0',
+    tokenBalanceDisplay = '0',
+    bonderMpxBalanceFormatted = '0',
+    bonderMpxBalanceInToken = '0',
+    trueContributions = '0',
+    trueMinCap = '0',
+    trueMaxCap = '0',
+    trueRatio = '0',
+  } = data || {};
 
   const transactionDialog = useDialogState();
 
-  const { mutate: swapToken, isLoading, data: transaction } = useSwapToken();
+  const { mutate: swapToken, data: transaction } = useSwapToken();
   const { mutate: checkTokenApproval, data: isApproved, isLoading: checkingApproval } = useCheckTokenApproval();
   const { mutate: approveToken, isLoading: approvingToken, error: approvalError } = useApproveToken();
 
@@ -99,8 +83,8 @@ const FtmCard = () => {
   }
 
   const fillMaxAmountOnClick = () => {
-    if (balance?.formatted) {
-      setFtmAmount(balance?.formatted);
+    if (tokenBalance) {
+      setFtmAmount(tokenBalance);
 
       checkApprovalOnChange(ftmAddress, ftmAmount);
     }
@@ -158,12 +142,12 @@ const FtmCard = () => {
     <div className="flex flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
       <h3 className="text-lg">Bond wFTM (1 MPX = {trueRatio} wFTM)</h3>
       <p className="mt-2 mb-4 text-[#4f4f4f] dark:text-[#b5bac1]">
-        Available: {bonderMpxBalanceFormatted} MPX or {bonderMpxBalanceWFTM} wFTM
+        Available: {bonderMpxBalanceFormatted} MPX or {bonderMpxBalanceInToken} wFTM
       </p>
       <p className="mt-2 text-[#4f4f4f] dark:text-[#b5bac1]">Min amount: {trueMinCap} wFTM</p>
       <p className="mt-2 mb-4 text-[#4f4f4f] dark:text-[#b5bac1]">Max amount: {trueMaxCap} wFTM</p>
       <p className="mt-2 text-[#4f4f4f] dark:text-[#b5bac1]">Your previous contributions: {trueContributions} wFTM</p>
-      <p className="mt-2 mb-4 text-[#4f4f4f] dark:text-[#b5bac1]">Your balance: {ftmBalance} wFTM</p>
+      <p className="mt-2 mb-4 text-[#4f4f4f] dark:text-[#b5bac1]">Your balance: {tokenBalanceDisplay} wFTM</p>
       <InputAmountWithMaxButton
         handleInputChange={handleChange}
         inputAmount={ftmAmount}
@@ -193,40 +177,23 @@ const UsdcCard = () => {
 
   const [{ data: accountData }] = useAccount();
   const provider = useProvider();
-  const [{ data: usdcBalance }] = useBalance({
-    addressOrName: accountData?.address,
-    token: usdcAddress,
-    formatUnits: 'mwei',
-  });
-  const [{ data: bonderMpxBalance }] = useBalance({
-    addressOrName: BONDER_USDC,
-    token: MPX_ADDRESS,
-  });
-  const [{ data: minCap }] = useContractRead({ addressOrName: BONDER_USDC, contractInterface: bonderABI }, 'minCap');
-  const [{ data: maxCap }] = useContractRead({ addressOrName: BONDER_USDC, contractInterface: bonderABI }, 'maxCap');
-  const [{ data: ratio }] = useContractRead({ addressOrName: BONDER_USDC, contractInterface: bonderABI }, 'ratio');
-  const [{ data: contributions }] = useContractRead(
-    {
-      addressOrName: BONDER_USDC,
-      contractInterface: bonderABI,
-    },
-    'contributions',
-    { args: [accountData?.address] }
-  );
 
-  const trueContributions = contributions ? Number(ethers.utils.formatUnits(contributions, 6)).toFixed(0) : '0';
-  const trueMinCap = minCap ? Number(ethers.utils.formatUnits(minCap, 6)).toFixed(0) : '0';
-  const trueMaxCap = maxCap ? Number(ethers.utils.formatUnits(maxCap, 6)).toFixed(0) : '0';
-  const trueRatio = ((1 / Number(ratio)) * 1000).toFixed(2);
+  const { data } = useGetBondingInfoUsdc();
 
-  const bonderMpxBalanceFormatted = bonderMpxBalance?.formatted ? Number(bonderMpxBalance?.formatted).toFixed(0) : '0';
-  const bonderMpxBalanceUSD = Number(bonderMpxBalanceFormatted) * Number(trueRatio);
-
-  const usdcBalanceFormatted = usdcBalance?.formatted ? Number(usdcBalance?.formatted).toFixed(0) : '-';
+  const {
+    tokenBalance = '0',
+    tokenBalanceDisplay = '0',
+    bonderMpxBalanceFormatted = '0',
+    bonderMpxBalanceInToken = '0',
+    trueContributions = '0',
+    trueMinCap = '0',
+    trueMaxCap = '0',
+    trueRatio = '0',
+  } = data || {};
 
   const transactionDialog = useDialogState();
 
-  const { mutate: swapToken, isLoading, data: transaction } = useSwapToken();
+  const { mutate: swapToken, data: transaction } = useSwapToken();
   const { mutate: checkTokenApproval, data: isApproved, isLoading: checkingApproval } = useCheckTokenApproval();
   const { mutate: approveToken, isLoading: approvingToken, error: approvalError } = useApproveToken();
 
@@ -250,8 +217,8 @@ const UsdcCard = () => {
   }
 
   const fillMaxAmountOnClick = () => {
-    if (usdcBalance?.formatted) {
-      setUsdcAmount(usdcBalance?.formatted);
+    if (tokenBalance) {
+      setUsdcAmount(tokenBalance);
 
       checkApprovalOnChange(usdcAddress, usdcAmount);
     }
@@ -309,12 +276,12 @@ const UsdcCard = () => {
     <div className="flex flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
       <h3 className="text-lg">Bond USDC (1 MPX = {trueRatio} USDC)</h3>
       <p className="mt-2 mb-4 text-[#4f4f4f] dark:text-[#b5bac1]">
-        Available: {bonderMpxBalanceFormatted} MPX or {bonderMpxBalanceUSD} USDC
+        Available: {bonderMpxBalanceFormatted} MPX or {bonderMpxBalanceInToken} USDC
       </p>
       <p className="mt-2 text-[#4f4f4f] dark:text-[#b5bac1]">Min amount: {trueMinCap} USDC</p>
       <p className="mt-2 mb-4 text-[#4f4f4f] dark:text-[#b5bac1]">Max amount: {trueMaxCap} USDC</p>
       <p className="mt-2 text-[#4f4f4f] dark:text-[#b5bac1]">Your previous contributions: {trueContributions} USDC</p>
-      <p className="mt-2 mb-4 text-[#4f4f4f] dark:text-[#b5bac1]">Your balance: {usdcBalanceFormatted} USDC</p>
+      <p className="mt-2 mb-4 text-[#4f4f4f] dark:text-[#b5bac1]">Your balance: {tokenBalanceDisplay} USDC</p>
       <InputAmountWithMaxButton
         handleInputChange={handleChange}
         inputAmount={usdcAmount}

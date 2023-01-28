@@ -60,3 +60,14 @@ export interface IVesting {
   timestamp: number;
   reason?: string | null;
 }
+
+export interface IBonding {
+  tokenBalance: string;
+  tokenBalanceDisplay: string;
+  bonderMpxBalanceFormatted: string;
+  bonderMpxBalanceInToken: string;
+  trueContributions: string;
+  trueMinCap: string;
+  trueMaxCap: string;
+  trueRatio: string;
+}

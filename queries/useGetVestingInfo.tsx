@@ -107,6 +107,7 @@ async function getVestingInfo(userAddress: string | undefined, provider: BasePro
     return null;
   }
 }
+
 export default function useGetVestingInfo() {
   const { provider, chainId } = useNetworkProvider();
   const [{ data: accountData }] = useAccount();
@@ -117,14 +118,4 @@ export default function useGetVestingInfo() {
       refetchInterval: 30000,
     }
   );
-}
-interface IVestingInfoByQueryParams {
-  address: string;
-  chainId: number | null;
-  provider: BaseProvider | null;
-}
-export function useGetVestingInfoByQueryParams({ address, chainId, provider }: IVestingInfoByQueryParams) {
-  return useQuery(['vestingInfo', address, chainId], () => getVestingInfo(address, provider, chainId), {
-    refetchInterval: 30000,
-  });
 }
