@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import BigNumber from 'bignumber.js';
 import { InputAmountWithMaxButton, SubmitButton } from '../Form';
 import { useAccount, useProvider } from 'wagmi';
@@ -8,11 +8,12 @@ import { createContractAndCheckApproval } from '../Form/utils';
 import { BONDER_WFTM, BONDER_USDC, USDC_ADDRESS, WFTM_ADDRESS } from '~/lib/contracts';
 import { useDialogState } from 'ariakit';
 import { BeatLoader } from 'react-spinners';
-import { TransactionDialog } from '../Dialog';
-import toast from 'react-hot-toast';
+
 import MoreInfo from '../MoreInfo';
 import useGetBondingInfoUsdc from '~/queries/useGetBondingInfoUsdc';
 import useGetBondingInfoWftm from '~/queries/useGetBondingInfoWftm';
+import React, { useState } from 'react';
+import { TransactionDialog } from '../Dialog';
 
 export default function BondingSection() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,11 +22,14 @@ export default function BondingSection() {
     <section className="-mt-2 w-full">
       <MoreInfo isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="section-header flex w-full flex-wrap items-center justify-between">
-        <h1 className="font-exo">
+        <h1 className="font-exo flex items-center">
           Bond for MPX
-          <span className="ml-4 cursor-pointer text-sm" onClick={() => setIsOpen(!isOpen)}>
+          <button
+            className="ml-4 cursor-pointer rounded-lg bg-[#0029FF] px-2 py-1 text-sm font-normal text-white"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             More Info
-          </span>
+          </button>
         </h1>
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">

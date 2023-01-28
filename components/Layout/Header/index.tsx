@@ -1,12 +1,12 @@
-import * as React from 'react';
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
+import { useTheme } from 'next-themes';
 import { DisclosureState } from 'ariakit';
 import { MoonIcon, SunIcon } from '@heroicons/react/outline';
-import { Account, WalletSelector } from '~/components/Web3';
-import { Logo } from '~/components/Icons';
-import { useTheme } from 'next-themes';
-import { useIsMounted } from '~/hooks';
+
+import { Logo } from '../../Icons';
+import { useIsMounted } from '../../../hooks';
+import { Account, WalletSelector } from '../../Web3';
 
 const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
   const [{ data }] = useAccount();
