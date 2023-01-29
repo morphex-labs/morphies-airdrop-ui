@@ -1,6 +1,7 @@
 import '~/styles/globals.css';
 
 import * as React from 'react';
+import dynamic from 'next/dynamic';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'next-themes';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -25,4 +26,6 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default App;
+export default dynamic(() => Promise.resolve(App), {
+  ssr: false,
+});
