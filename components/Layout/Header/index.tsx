@@ -32,7 +32,7 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
             <Account showAccountInfo={walletDialog.toggle} />
           </>
         ) : (
-          <button className="nav-button-v2 hidden hover:opacity-80  md:block" onClick={walletDialog.toggle}>
+          <button className="nav-button-v2 block hover:opacity-80" onClick={walletDialog.toggle}>
             Connect a Wallet
           </button>
         )}
