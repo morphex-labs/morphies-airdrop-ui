@@ -52,7 +52,6 @@ async function getBondingInfo(userAddress: string | undefined, provider: BasePro
         trueRatio: trueRatio,
       };
 
-      console.log('resultWFTM', result);
       return result;
     }
   } catch (error) {
