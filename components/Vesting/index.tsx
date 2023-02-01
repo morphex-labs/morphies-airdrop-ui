@@ -84,8 +84,8 @@ const VestingItem: FC<{ data: IVesting }> = ({
     });
   }
 
-  const totalVesting = Number(totalLocked).toFixed(2);
-  const claimed = Number(totalClaimed).toFixed(2);
+  const totalVesting = ethers.utils.commify(Number(totalLocked).toFixed(2));
+  const claimed = ethers.utils.commify(Number(totalClaimed).toFixed(2));
   const withdrawable = Number(unclaimed).toFixed(2);
   const vestingEndTime = new Date(Number(endTime) * 1000).toLocaleDateString('en-GB');
 

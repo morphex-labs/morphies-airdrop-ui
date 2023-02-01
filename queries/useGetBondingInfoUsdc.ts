@@ -32,20 +32,23 @@ async function getBondingInfo(userAddress: string | undefined, provider: BasePro
 
       const trueContributions = Number(ethers.utils.formatUnits(contributions, 6)).toFixed(0);
       const trueMinCap = Number(ethers.utils.formatUnits(minCap, 6)).toFixed(0);
-      const trueMaxCap = Number(ethers.utils.formatUnits(maxCap, 6)).toFixed(0);
+      const trueMaxCap = ethers.utils.commify(Number(ethers.utils.formatUnits(maxCap, 6)).toFixed(0));
       const trueRatio = ((1 / Number(ratio)) * 1000).toFixed(2);
 
       const bonderMpxBalanceFormatted = Number(ethers.utils.formatUnits(bonderMpxBalance, 18)).toFixed(0);
       const bonderMpxBalanceUSD = (Number(bonderMpxBalanceFormatted) * Number(trueRatio)).toFixed(2);
-      const usdcBalanceFormatted = Number(ethers.utils.formatUnits(usdcBalance, 6)).toFixed(0);
+
+      const bonderMpxBalanceCommified = ethers.utils.commify(bonderMpxBalanceFormatted);
+      const bonderMpxBalanceUSDCommified = ethers.utils.commify(bonderMpxBalanceUSD);
+      const usdcBalanceFormatted = ethers.utils.commify(Number(ethers.utils.formatUnits(usdcBalance, 6)).toFixed(0));
 
       const tokenBalance = ethers.utils.formatUnits(usdcBalance, 6);
 
       const result: IBonding = {
         tokenBalance: tokenBalance,
         tokenBalanceDisplay: usdcBalanceFormatted,
-        bonderMpxBalanceFormatted: bonderMpxBalanceFormatted,
-        bonderMpxBalanceInToken: bonderMpxBalanceUSD,
+        bonderMpxBalanceFormatted: bonderMpxBalanceCommified,
+        bonderMpxBalanceInToken: bonderMpxBalanceUSDCommified,
         trueContributions: trueContributions,
         trueMinCap: trueMinCap,
         trueMaxCap: trueMaxCap,

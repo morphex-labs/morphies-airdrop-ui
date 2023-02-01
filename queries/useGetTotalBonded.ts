@@ -25,7 +25,7 @@ async function getBondingInfo(provider: BaseProvider | null, chainId: number | n
 
       const usdcBalance = Number(ethers.utils.formatUnits(usdcBalanceBN, 6));
       const ftmBalance = Number(ethers.utils.formatUnits(ftmBalanceBN, 18));
-      const totalBonded = (usdcBalance + ftmBalance * ftmPrice).toFixed(0);
+      const totalBonded = ethers.utils.commify((usdcBalance + ftmBalance * ftmPrice).toFixed(0));
 
       return totalBonded;
     }
