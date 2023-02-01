@@ -19,12 +19,22 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
 
   return (
     <header className="mt-2 flex content-center items-center justify-between gap-10 rounded-[30px] bg-[#747474] bg-opacity-5 py-2 px-6 text-base dark:border-lp-gray-7 dark:bg-[#334155] sm:px-6 lg:px-8">
-      <Link href="/" passHref>
-        <a className="text-[#0c00ff] dark:text-[#fff]">
-          <span className="sr-only">Navigate to Home Page</span>
-          <Logo />
+      <div className="flex items-center">
+        <Link href="/" passHref>
+          <a className="mr-4 text-[#0c00ff] dark:text-[#fff] sm:mr-8">
+            <span className="sr-only">Navigate to Home Page</span>
+            <Logo />
+          </a>
+        </Link>
+        <a
+          className="cursor-pointer rounded-lg bg-[#0029FF] px-2 py-1 text-sm text-white"
+          target="_blank"
+          rel="noreferrer"
+          href="https://bonds.morphex.trade/"
+        >
+          Migration
         </a>
-      </Link>
+      </div>
 
       <div className="flex flex-shrink-0 items-center justify-between gap-[0.625rem]">
         {data ? (
