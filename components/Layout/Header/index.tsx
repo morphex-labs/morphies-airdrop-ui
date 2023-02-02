@@ -30,7 +30,7 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
           className="cursor-pointer rounded-lg bg-[#0029FF] px-2 py-1 text-sm text-white"
           target="_blank"
           rel="noreferrer"
-          href="https://bonds.morphex.trade/"
+          href="https://migration.morphex.trade/"
         >
           Migration
         </a>
