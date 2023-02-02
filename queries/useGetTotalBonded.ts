@@ -23,7 +23,7 @@ async function getBondingInfo(provider: BaseProvider | null, chainId: number | n
       const ftmData = await fetch('https://api.coingecko.com/api/v3/coins/fantom').then((res) => res.json());
       const ftmPrice = Number(ftmData.market_data.current_price.usd);
 
-      const usdcBalance = Number(ethers.utils.formatUnits(usdcBalanceBN, 6));
+      const usdcBalance = Number(ethers.utils.formatUnits(usdcBalanceBN, 6)) - 11559;
       const ftmBalance = Number(ethers.utils.formatUnits(ftmBalanceBN, 18));
       const totalBonded = ethers.utils.commify((usdcBalance + ftmBalance * ftmPrice).toFixed(0));
 
