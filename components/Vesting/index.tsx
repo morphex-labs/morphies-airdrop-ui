@@ -38,7 +38,7 @@ export default function VestingSection() {
       {isLoading || error || !data || data.length < 1 ? (
         <Fallback isLoading={isLoading} isError={error ? true : false} noData={true} showLoader={true} />
       ) : (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data
             .filter((d: IVesting) => d.token === MPX_ADDRESS)
             .map((d: IVesting) => (

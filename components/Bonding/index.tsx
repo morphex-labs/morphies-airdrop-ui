@@ -159,7 +159,7 @@ const FtmCard = () => {
         selectedToken={null}
         fillMaxAmountOnClick={fillMaxAmountOnClick}
       />
-      <SubmitButton className="mt-4" onClick={handleSubmit}>
+      <SubmitButton disabled={true} className="mt-4 bg-slate-500" onClick={handleSubmit}>
         {checkingApproval || approvingToken ? (
           <BeatLoader size={6} color="white" />
         ) : isApproved ? (
@@ -293,7 +293,7 @@ const UsdcCard = () => {
         selectedToken={null}
         fillMaxAmountOnClick={fillMaxAmountOnClick}
       />
-      <SubmitButton className="mt-4" onClick={handleSubmit}>
+      <SubmitButton disabled={true} className="mt-4 bg-slate-500" onClick={handleSubmit}>
         {checkingApproval || approvingToken ? (
           <BeatLoader size={6} color="white" />
         ) : isApproved ? (
