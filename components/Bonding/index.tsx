@@ -32,9 +32,9 @@ export default function BondingSection() {
           </button>
         </h1>
       </div>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div className="flex items-center justify-center">
         <UsdcCard />
-        <FtmCard />
+        {/* <FtmCard /> */}
       </div>
     </section>
   );
@@ -277,7 +277,7 @@ const UsdcCard = () => {
   };
 
   return (
-    <div className="flex flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
+    <div className=" flex w-full max-w-[500px] flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
       <h3 className="text-lg">Bond USDC (1 MPX = {trueRatio} USDC)</h3>
       <p className="mt-2 mb-4 text-[#4f4f4f] dark:text-[#b5bac1]">
         Available: {bonderMpxBalanceFormatted} MPX or {bonderMpxBalanceInToken} USDC
@@ -293,7 +293,7 @@ const UsdcCard = () => {
         selectedToken={null}
         fillMaxAmountOnClick={fillMaxAmountOnClick}
       />
-      <SubmitButton disabled={true} className="mt-4 bg-slate-500" onClick={handleSubmit}>
+      <SubmitButton className="mt-4 bg-slate-500" onClick={handleSubmit}>
         {checkingApproval || approvingToken ? (
           <BeatLoader size={6} color="white" />
         ) : isApproved ? (
