@@ -32,7 +32,7 @@ export default function VestingSection() {
   return (
     <section className="-mt-2 w-full">
       <div className="section-header flex w-full flex-wrap items-center justify-between">
-        <h1 className="font-exo">MPX Vesting (2 months initial cliff, 1 year linear vesting)</h1>
+        <h1 className="font-exo">MPX Vesting</h1>
       </div>
 
       {isLoading || error || !data || data.length < 1 ? (
