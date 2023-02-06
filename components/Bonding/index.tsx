@@ -23,7 +23,7 @@ export default function BondingSection() {
       <MoreInfo isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="section-header flex w-full flex-wrap items-center justify-between">
         <h1 className="font-exo flex items-center">
-          Bond for MPX
+          Bond #2 for MPX
           <button
             className="ml-4 cursor-pointer rounded-lg bg-[#0029FF] px-2 py-1 text-sm font-normal text-white"
             onClick={() => setIsOpen(!isOpen)}
