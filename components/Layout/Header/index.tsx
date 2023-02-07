@@ -2,9 +2,10 @@ import Link from 'next/link';
 import { useAccount } from 'wagmi';
 import { useTheme } from 'next-themes';
 import { DisclosureState } from 'ariakit';
-import { MoonIcon, SunIcon } from '@heroicons/react/outline';
+import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
 
 import { Logo } from '../../Icons';
+import Dropdown from '../../Dropdown';
 import { useIsMounted } from '../../../hooks';
 import { Account, WalletSelector } from '../../Web3';
 
@@ -26,14 +27,7 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
             <Logo />
           </a>
         </Link>
-        <a
-          className="cursor-pointer rounded-lg bg-[#0029FF] px-2 py-1 text-sm text-white"
-          target="_blank"
-          rel="noreferrer"
-          href="https://migration.morphex.trade/"
-        >
-          Migration
-        </a>
+        <Dropdown />
       </div>
 
       <div className="flex flex-shrink-0 items-center justify-between gap-[0.625rem]">

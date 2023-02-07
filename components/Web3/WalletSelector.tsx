@@ -3,8 +3,8 @@ import { Connector, useAccount, useConnect } from 'wagmi';
 import { useChainExplorer, useIsMounted } from '~/hooks';
 import { formatAddress } from '~/utils/address';
 import { Dialog, DialogHeading, DisclosureState } from 'ariakit';
-import { XIcon } from '@heroicons/react/solid';
-import { ExternalLinkIcon } from '@heroicons/react/outline';
+import { XMarkIcon as XIcon } from '@heroicons/react/24/outline';
+import { LinkIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
 
 interface Props {
   dialog: DisclosureState;
