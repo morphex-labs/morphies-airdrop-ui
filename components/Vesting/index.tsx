@@ -29,10 +29,20 @@ const secondsByDuration: ISecondsByDuration = {
 export default function VestingSection() {
   const { data, isLoading, error } = useGetVestingInfo();
 
+  const handleClaimAll = () => {};
+
   return (
     <section className="-mt-2 w-full">
       <div className="section-header flex w-full flex-wrap items-center justify-between">
-        <h1 className="font-exo">MPX Vesting</h1>
+        <h1 className="font-exo flex items-center">
+          MPX Vesting
+          <button
+            className="ml-4 cursor-pointer rounded-lg bg-[#0029FF] px-2 py-1 text-sm font-normal text-white"
+            onClick={handleClaimAll}
+          >
+            Claim All
+          </button>
+        </h1>
       </div>
 
       {isLoading || error || !data || data.length < 1 ? (
