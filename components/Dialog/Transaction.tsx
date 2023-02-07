@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { XIcon } from '@heroicons/react/solid';
+import { XMarkIcon as XIcon } from '@heroicons/react/24/solid';
 import { DisclosureState } from 'ariakit';
 import { Dialog, DialogDismiss } from 'ariakit/dialog';
 import classNames from 'classnames';
