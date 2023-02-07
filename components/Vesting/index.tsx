@@ -29,7 +29,9 @@ const secondsByDuration: ISecondsByDuration = {
 export default function VestingSection() {
   const { data, isLoading, error } = useGetVestingInfo();
 
-  const handleClaimAll = () => {};
+  const handleClaimAll = () => {
+    console.log('object');
+  };
 
   return (
     <section className="-mt-2 w-full">
