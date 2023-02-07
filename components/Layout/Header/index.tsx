@@ -34,6 +34,14 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
         >
           Migration
         </a>
+        <a
+          className="ml-2 cursor-pointer rounded-lg bg-[#0029FF] px-2 py-1 text-sm text-white"
+          target="_blank"
+          rel="noreferrer"
+          href="/litepaper.pdf"
+        >
+          Litepaper
+        </a>
       </div>
 
       <div className="flex flex-shrink-0 items-center justify-between gap-[0.625rem]">
