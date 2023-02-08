@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { FC, useState } from 'react';
 import { useDialogState } from 'ariakit';
 import { BeatLoader } from 'react-spinners';
-import { useAccount, useContractWrite } from 'wagmi';
+import { useAccount, useContractWrite, useSigner } from 'wagmi';
 
 import Fallback from '../Fallback';
 import { SubmitButton } from '../Form';
@@ -29,22 +29,50 @@ const secondsByDuration: ISecondsByDuration = {
 export default function VestingSection() {
   const { data, isLoading, error } = useGetVestingInfo();
 
-  const handleClaimAll = () => {
-    console.log('object');
+  let vestingData: IVesting[];
+  if (error || !data || data.length < 1) {
+    vestingData = [];
+  } else {
+    vestingData = data?.filter((d: IVesting) => d.token === MPX_ADDRESS);
+  }
+
+  const [{ data: signer }] = useSigner();
+
+  const handleClaimAll = async () => {
+    if (!signer) {
+      throw new Error("Couldn't get signer");
+    } else {
+      await Promise.all(
+        vestingData.map(
+          (d: IVesting) =>
+            new Promise((res) => {
+              const vestingContract = new ethers.Contract(d.contract, vestingContractReadableABI, signer);
+
+              vestingContract.claim(d.recipient, ethers.utils.parseUnits(d.unclaimed, 18)).then((tx: any) => {
+                res(undefined);
+              });
+            })
+        )
+      );
+    }
   };
 
   return (
     <section className="-mt-2 w-full">
       <div className="section-header flex w-full flex-wrap items-center justify-between">
-        <h1 className="font-exo flex items-center">
-          MPX Vesting
-          <button
-            className="ml-4 cursor-pointer rounded-lg bg-[#0029FF] px-2 py-1 text-sm font-normal text-white"
-            onClick={handleClaimAll}
-          >
-            Claim All
-          </button>
-        </h1>
+        {error || !data || data.length < 2 ? (
+          <h1 className="font-exo flex items-center">MPX Vesting</h1>
+        ) : (
+          <h1 className="font-exo flex items-center">
+            MPX Vesting
+            <button
+              className="ml-4 cursor-pointer rounded-lg bg-[#0029FF] px-2 py-1 text-sm font-normal text-white"
+              onClick={handleClaimAll}
+            >
+              Claim All
+            </button>
+          </h1>
+        )}
       </div>
 
       {isLoading || error || !data || data.length < 1 ? (
