@@ -42,18 +42,31 @@ export default function VestingSection() {
     if (!signer) {
       throw new Error("Couldn't get signer");
     } else {
-      await Promise.all(
-        vestingData.map(
-          (d: IVesting) =>
-            new Promise((res) => {
-              const vestingContract = new ethers.Contract(d.contract, vestingContractReadableABI, signer);
+      const toastId = toast.loading('Claiming all MPX...');
+      try {
+        await Promise.all(
+          vestingData.map(
+            (d: IVesting) =>
+              new Promise((resolve, reject) => {
+                const vestingContract = new ethers.Contract(d.contract, vestingContractReadableABI, signer);
 
-              vestingContract.claim(d.recipient, ethers.utils.parseUnits(d.unclaimed, 18)).then((tx: any) => {
-                res(undefined);
-              });
-            })
-        )
-      );
+                vestingContract
+                  .claim(d.recipient, ethers.utils.parseUnits(d.unclaimed, 18))
+                  .then((tx: any) => {
+                    resolve(undefined);
+                  })
+                  .catch((error: any) => {
+                    reject(error);
+                  });
+              })
+          )
+        );
+        toast.dismiss(toastId);
+        toast.success('Confirmed transactions');
+      } catch (error) {
+        toast.dismiss(toastId);
+        toast.error('Failed to claim all MPX');
+      }
     }
   };
 
