@@ -24,7 +24,7 @@ async function getVestingInfo(userAddress: string | undefined, provider: BasePro
       const factoryContract = new ethers.Contract(factoryAddress, vestingFactoryABI, provider);
       const multicall = new Multicall({ ethersProvider: provider, tryAggregate: true });
 
-      const amtOfContracts = await factoryContract.escrows_length({ gasLimit: 1000000 });
+      const amtOfContracts = await factoryContract.escrows_length({ gasLimit: 2000000 });
 
       const runMulticall = async (calls: any[]) => {
         const pending = [];
@@ -116,7 +116,7 @@ export default function useGetVestingInfo() {
     ['vestingInfo', accountData?.address, chainId],
     () => getVestingInfo(accountData?.address, provider, chainId),
     {
-      refetchInterval: 30000,
+      refetchInterval: 20000,
     }
   );
 }
