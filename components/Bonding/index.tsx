@@ -293,7 +293,7 @@ const UsdcCard = () => {
         selectedToken={null}
         fillMaxAmountOnClick={fillMaxAmountOnClick}
       />
-      <SubmitButton className="mt-4 bg-[#0029FF]" onClick={handleSubmit}>
+      <SubmitButton disabled={true} className="mt-4 bg-[#0029FF]" onClick={handleSubmit}>
         {checkingApproval || approvingToken ? (
           <BeatLoader size={6} color="white" />
         ) : isApproved ? (

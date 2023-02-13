@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import Countdown, { CountdownRenderProps } from 'react-countdown';
+// import Countdown, { CountdownRenderProps } from 'react-countdown';
 import { useEffect, useState } from 'react';
 
 import Layout from '../components/Layout';
@@ -25,13 +25,13 @@ const Home: NextPage = () => {
     checkDisclaimerShown();
   }, []);
 
-  const renderer = ({ days, hours }: CountdownRenderProps) => {
-    return (
-      <span className="text-xl">
-        {days} days {hours} hours
-      </span>
-    );
-  };
+  // const renderer = ({ days, hours }: CountdownRenderProps) => {
+  //   return (
+  //     <span className="text-xl">
+  //       {days} days {hours} hours
+  //     </span>
+  //   );
+  // };
 
   const { data } = useGetTotalBonded();
   const totalBonded = data ? data : '0';
@@ -41,8 +41,8 @@ const Home: NextPage = () => {
       <Layout className="flex flex-col gap-12">
         <Disclaimer isOpen={showDisclaimer} setIsOpen={setShowDisclaimer} />
         <div className="mb -mb-8 flex items-center justify-center">
-          {/* <p className="mr-2 text-xl">Bonding Ended</p> */}
-          <Countdown date={new Date('2023-02-13T18:00:00.000Z').getTime()} renderer={renderer} />
+          <p className="mr-2 text-xl">Bonding Ended</p>
+          {/* <Countdown date={new Date('2023-02-13T18:00:00.000Z').getTime()} renderer={renderer} /> */}
         </div>
         <div className="flex items-center justify-center">
           <p className="text-xl">Total bonded: ${totalBonded}</p>
