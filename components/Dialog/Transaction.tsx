@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { XMarkIcon as XIcon } from '@heroicons/react/24/solid';
+import { XMarkIcon as XIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { DisclosureState } from 'ariakit';
-import { Dialog, DialogDismiss } from 'ariakit/dialog';
+import { Dialog, DialogDismiss, DialogHeading } from 'ariakit/dialog';
 import classNames from 'classnames';
 import { useChainExplorer } from '~/hooks';
 
@@ -52,6 +52,28 @@ export const TransactionDialog = ({ dialog, className, transactionHash }: FormDi
       <button className="form-submit-button" onClick={dialog.toggle}>
         Close
       </button>
+    </Dialog>
+  );
+};
+
+interface ChartFormDialogProps {
+  dialog: DisclosureState;
+  title: string | React.ReactNode | null;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const FormDialog = ({ dialog, title, className, children }: ChartFormDialogProps) => {
+  return (
+    <Dialog state={dialog} className={classNames('dialog', className)}>
+      <header className="font-exo relative flex items-center justify-between text-lg font-medium">
+        <DialogHeading>{title}</DialogHeading>
+        <DialogDismiss className="flex items-start justify-end">
+          <span className="sr-only">Close</span>
+          <XMarkIcon className="h-6 w-6" />
+        </DialogDismiss>
+      </header>
+      <div className="mt-4">{children}</div>
     </Dialog>
   );
 };

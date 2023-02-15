@@ -12,6 +12,13 @@ import { TransactionDialog } from '../Dialog';
 import { MPX_ADDRESS } from '../../lib/contracts';
 import useGetVestingInfo from '../../queries/useGetVestingInfo';
 import { vestingContractReadableABI } from '../../lib/abis/vestingContractReadable';
+import React from 'react';
+import { IChartValues } from './types';
+import ChartButton from './Charts/ChartButton';
+import { FormDialog } from '../Dialog/Transaction';
+import dynamic from 'next/dynamic';
+
+const VestingChart = dynamic(() => import('./Charts/VestingChart'), { ssr: false });
 
 interface ISecondsByDuration {
   [key: string]: number;
@@ -104,7 +111,24 @@ export default function VestingSection() {
 }
 
 const VestingItem: FC<{ data: IVesting }> = ({
-  data: { contract, totalClaimed, totalLocked, unclaimed, endTime, startTime, cliffLength },
+  data: {
+    contract,
+    totalClaimed,
+    totalLocked,
+    unclaimed,
+    endTime,
+    startTime,
+    cliffLength,
+    recipient,
+    tokenDecimals,
+    tokenSymbol,
+    tokenName,
+    locked,
+    token,
+    timestamp,
+    admin,
+    disabledAt,
+  },
 }) => {
   const [{ data: accountData }] = useAccount();
   const beneficiaryInput = accountData?.address;
@@ -145,7 +169,7 @@ const VestingItem: FC<{ data: IVesting }> = ({
   function getStatus() {
     if (Date.now() / 1e3 < Number(startTime) + Number(cliffLength)) {
       const tilStart = ((Number(startTime) + Number(cliffLength) - Date.now() / 1e3) / 86400).toFixed(2);
-      return `Vesting starts in ${tilStart} days`;
+      return `Cliff ends in ${tilStart} days`;
     } else if (totalClaimed === totalLocked) {
       return `Vesting ended`;
     } else {
@@ -156,6 +180,28 @@ const VestingItem: FC<{ data: IVesting }> = ({
       return `Vesting ${amtPerMonth} / month`;
     }
   }
+
+  const chartValues = React.useRef<IChartValues | null>(null);
+  const chartDialog = useDialogState();
+
+  const chartData: IVesting = {
+    contract,
+    recipient,
+    token,
+    tokenName,
+    unclaimed,
+    locked,
+    totalClaimed,
+    admin,
+    disabledAt,
+    tokenSymbol,
+    tokenDecimals,
+    startTime,
+    endTime,
+    cliffLength,
+    totalLocked,
+    timestamp,
+  };
 
   return (
     <div className="flex flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
@@ -186,6 +232,27 @@ const VestingItem: FC<{ data: IVesting }> = ({
       <TransactionDialog transactionHash={transactionHash} dialog={transactionDialog} />
 
       <div className="mt-2 flex justify-center">
+        <ChartButton data={chartData} chartValues={chartValues} dialog={chartDialog} />
+      </div>
+      <React.Suspense fallback={null}>
+        {chartValues.current && (
+          <FormDialog dialog={chartDialog} title={`${chartValues.current.tokenSymbol}`} className="max-w-[36rem]">
+            <div className="h-[360px]">
+              {chartDialog.open && (
+                <VestingChart
+                  amount={chartValues.current.amount}
+                  vestingPeriod={chartValues.current.vestingPeriod}
+                  cliffPeriod={chartValues.current.cliffPeriod}
+                  startTime={chartValues.current.startTime}
+                  vestedDays={chartValues.current.vestedDays}
+                />
+              )}
+            </div>
+          </FormDialog>
+        )}
+      </React.Suspense>
+
+      <div className="mt-3 flex justify-center">
         <a className="text-sm" href={`https://ftmscan.com/address/${contract}`} target="_blank" rel="noreferrer">
           Contract
         </a>

@@ -68,6 +68,10 @@
     @apply shadow-1 w-full rounded-[10px]  bg-[#0029FF] py-[7px] px-3 text-sm font-semibold font-normal text-lp-white disabled:cursor-not-allowed;
   }
 
+  .chart-button {
+    @apply shadow-1 w-full rounded-[6px]  bg-[#0029FF] py-[7px] px-3 text-sm font-semibold font-normal text-lp-white disabled:cursor-not-allowed;
+  }
+
   .input-label {
     @apply text-sm font-medium text-lp-gray-6 dark:text-lp-white;
   }
