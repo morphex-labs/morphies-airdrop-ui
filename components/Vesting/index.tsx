@@ -74,10 +74,10 @@ export default function VestingSection() {
     <section className="-mt-2 w-full">
       <div className="section-header flex w-full flex-wrap items-center justify-between">
         {error || !data || data.length < 2 ? (
-          <h1 className="font-exo flex items-center">MPX Vesting</h1>
+          <h1 className="font-exo flex items-center">MPX Vesting from Bonds</h1>
         ) : (
           <h1 className="font-exo flex items-center">
-            MPX Vesting
+            MPX Vesting from Bonds
             <button
               className="ml-4 cursor-pointer rounded-lg bg-[#0029FF] px-2 py-1 text-sm font-normal text-white"
               onClick={handleClaimAll}

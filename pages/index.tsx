@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 
 import Layout from '../components/Layout';
 import VestingSection from '../components/Vesting';
-import BondingSection from '../components/Bonding';
+// import BondingSection from '../components/Bonding';
 import Disclaimer from '../components/Disclaimer';
-import useGetTotalBonded from '~/queries/useGetTotalBonded';
+// import useGetTotalBonded from '~/queries/useGetTotalBonded';
 
 const Home: NextPage = () => {
   const [showDisclaimer, setShowDisclaimer] = useState(false);
@@ -33,21 +33,21 @@ const Home: NextPage = () => {
   //   );
   // };
 
-  const { data } = useGetTotalBonded();
-  const totalBonded = data ? data : '0';
+  // const { data } = useGetTotalBonded();
+  // const totalBonded = data ? data : '0';
 
   return (
     <div className="mx-auto my-0 w-full max-w-[1280px] px-4 sm:px-6">
       <Layout className="flex flex-col gap-12">
         <Disclaimer isOpen={showDisclaimer} setIsOpen={setShowDisclaimer} />
-        <div className="mb -mb-8 flex items-center justify-center">
-          <p className="mr-2 text-xl">Bonding Ended</p>
-          {/* <Countdown date={new Date('2023-02-13T18:00:00.000Z').getTime()} renderer={renderer} /> */}
-        </div>
-        <div className="flex items-center justify-center">
+        {/* <div className="mb -mb-8 flex items-center justify-center">
+          <p className="mr-2 text-xl">Bonding Ended</p> */}
+        {/* <Countdown date={new Date('2023-02-13T18:00:00.000Z').getTime()} renderer={renderer} /> */}
+        {/* </div> */}
+        {/* <div className="flex items-center justify-center">
           <p className="text-xl">Total bonded: ${totalBonded}</p>
-        </div>
-        <BondingSection />
+        </div> */}
+        {/* <BondingSection /> */}
         <VestingSection />
       </Layout>
     </div>
