@@ -15,13 +15,7 @@ interface IVestingChartProps {
   vestedDays?: string | null;
 }
 
-export default function VestingChart({
-  amount,
-  vestingPeriod,
-  cliffPeriod,
-  startTime,
-  vestedDays,
-}: IVestingChartProps) {
+export default function VestingChart({ amount, vestingPeriod, cliffPeriod, startTime }: IVestingChartProps) {
   const id = React.useId();
 
   const { resolvedTheme } = useTheme();

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { XMarkIcon as XIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { XMarkIcon as XIcon } from '@heroicons/react/24/solid';
 import { DisclosureState } from 'ariakit';
 import { Dialog, DialogDismiss, DialogHeading } from 'ariakit/dialog';
 import classNames from 'classnames';
@@ -70,7 +70,7 @@ export const FormDialog = ({ dialog, title, className, children }: ChartFormDial
         <DialogHeading>{title}</DialogHeading>
         <DialogDismiss className="flex items-start justify-end">
           <span className="sr-only">Close</span>
-          <XMarkIcon className="h-6 w-6" />
+          <XIcon className="h-6 w-6" />
         </DialogDismiss>
       </header>
       <div className="mt-4">{children}</div>
