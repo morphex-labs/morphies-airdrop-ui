@@ -21,12 +21,15 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
   return (
     <header className="mt-2 flex content-center items-center justify-between rounded-[30px] bg-[#747474] bg-opacity-5 py-2 px-6 text-base dark:border-lp-gray-7 dark:bg-[#334155] sm:px-6 lg:px-8">
       <div className="flex items-center">
-        <Link href="/" passHref>
-          <a className="mr-4 text-[#0c00ff] dark:text-[#fff] sm:mr-8">
-            <span className="sr-only">Navigate to Home Page</span>
-            <Logo />
-          </a>
-        </Link>
+        <a
+          href="https://morphex.trade"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mr-4 text-[#0c00ff] dark:text-[#fff] sm:mr-8"
+        >
+          <span className="sr-only">Navigate to Home Page</span>
+          <Logo />
+        </a>
         <Dropdown />
       </div>
 
