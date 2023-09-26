@@ -1,4 +1,4 @@
-# Morphex Bonds Interface
+# Morphex Airdrop Interface
 
 Install dependencies: yarn
 

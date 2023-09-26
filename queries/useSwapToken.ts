@@ -7,23 +7,22 @@ import { bonderABI } from '~/lib/abis/bonder';
 
 interface IUseSwapToken {
   contractAddress: string;
-  amountToDeposit: string;
 }
 
 interface ISwapToken extends IUseSwapToken {
   signer?: Signer;
 }
 
-const swap = async ({ signer, contractAddress, amountToDeposit }: ISwapToken) => {
+const swap = async ({ signer, contractAddress }: ISwapToken) => {
   try {
     if (!signer) {
       throw new Error("Couldn't get signer");
     } else {
       const contract = new ethers.Contract(contractAddress, bonderABI, signer);
-      return await contract.bond(amountToDeposit);
+      return await contract.claim();
     }
   } catch (error: any) {
-    throw new Error(error.message || (error?.reason ?? "Couldn't bond token"));
+    throw new Error(error.message || (error?.reason ?? "Couldn't claim oBMX"));
   }
 };
 
@@ -32,22 +31,22 @@ export default function useSwapToken() {
   const queryClient = useQueryClient();
 
   return useMutation<ITransactionSuccess, ITransactionError, IUseSwapToken, unknown>(
-    ({ contractAddress, amountToDeposit }: IUseSwapToken) => swap({ signer, contractAddress, amountToDeposit }),
+    ({ contractAddress }: IUseSwapToken) => swap({ signer, contractAddress }),
     {
       onError: () => {
-        toast.error("Couldn't bond token. Check if your input fits within the bonding caps.");
+        toast.error("Couldn't claim. Check if your address is correct or if you already claimed.");
       },
       onSuccess: (data) => {
-        const toastId = toast.loading('Confirming bond');
+        const toastId = toast.loading('Confirming claim');
         data.wait().then((res) => {
           toast.dismiss(toastId);
 
           queryClient.invalidateQueries();
 
           if (res.status === 1) {
-            toast.success('Bond success!');
+            toast.success('Claimed!');
           } else {
-            toast.error('Bond failed!');
+            toast.error('Could not claim!');
           }
         });
       },
