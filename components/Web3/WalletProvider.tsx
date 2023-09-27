@@ -3,7 +3,6 @@ import { networkDetails } from '~/lib/networkDetails';
 import { chains } from '~/lib/chains';
 import { Connector, Provider } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { ethers } from 'ethers';
 
 const connectors = () => {
@@ -12,11 +11,11 @@ const connectors = () => {
       chains,
       options: { shimDisconnect: true },
     }),
-    new WalletConnectConnector({
-      options: {
-        qrcode: true,
-      },
-    }),
+    // new WalletConnectConnector({
+    //   options: {
+    //     qrcode: true,
+    //   },
+    // }),
   ];
 };
 
@@ -25,7 +24,9 @@ type ProviderConfig = { chainId?: number; connector?: Connector };
 
 const provider = ({ chainId }: ProviderConfig) => {
   const chainDetails = chainId && networkDetails[chainId];
-  return chainDetails ? chainDetails.chainProviders : new ethers.providers.JsonRpcProvider('https://rpc.ftm.tools/');
+  return chainDetails
+    ? chainDetails.chainProviders
+    : new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/base/');
 };
 
 type Props = {

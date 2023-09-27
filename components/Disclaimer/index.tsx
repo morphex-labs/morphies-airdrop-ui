@@ -42,7 +42,7 @@ export default function Disclaimer({ isOpen, setIsOpen }: { isOpen: boolean; set
               >
                 <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-[#334155]">
                   <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900 dark:text-white">
-                    By using the Morphex interface, I agree to the following:
+                    By using this interface, I agree to the following:
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="mb-2 text-sm text-gray-500  dark:text-[#cecece]">

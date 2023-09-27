@@ -18,13 +18,13 @@ interface INetworkDetails {
 }
 
 export const networkDetails: INetworkDetails = {
-  250: {
-    rpcUrl: 'https://rpc.ftm.tools/',
-    chainProviders: new ethers.providers.JsonRpcProvider('https://rpc.ftm.tools/'),
-    blockExplorerURL: 'https://ftmscan.com/',
-    blockExplorerName: 'FTMScan',
-    prefix: 'fantom',
-    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/fantom/info/logo.png',
+  8453: {
+    rpcUrl: 'https://rpc.ankr.com/base',
+    chainProviders: new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/base'),
+    blockExplorerURL: 'https://basescan.org/',
+    blockExplorerName: 'BaseScan',
+    prefix: 'base',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png',
     vestingFactory: CONTRACTS.VESTING_FACTORY_FANTOM,
     migrator: CONTRACTS.MIGRATOR_FANTOM,
     pills: CONTRACTS.PILLS_ADDRESS,

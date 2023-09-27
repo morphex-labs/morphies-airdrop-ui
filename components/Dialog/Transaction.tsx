@@ -47,7 +47,7 @@ export const TransactionDialog = ({ dialog, className, transactionHash }: FormDi
         target="_blank"
         rel="noopener noreferrer"
       >
-        View on FTMScan
+        View on BaseScan
       </a>
       <button className="form-submit-button" onClick={dialog.toggle}>
         Close

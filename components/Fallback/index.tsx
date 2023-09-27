@@ -23,7 +23,7 @@ const Fallback = ({ isLoading, isError, noData, supressWalletConnection, showLoa
   const defaultMessage = !accountData
     ? 'Connect a wallet to see your vesting contracts'
     : unsupported
-    ? 'Network not supported, please switch to Fantom Opera'
+    ? 'Network not supported, please switch to Base Mainnet'
     : null;
 
   return (
