@@ -18,8 +18,8 @@ export default function Layout({ children, className, ...props }: ILayoutProps) 
   return (
     <>
       <Head>
-        <title>Morphex Bonds</title>
-        <meta name="description" content="Morphex Bonds" />
+        <title>oBMX Airdrop</title>
+        <meta name="description" content="oBMX Airdrop" />
       </Head>
 
       <Header walletDialog={walletDialog} />
