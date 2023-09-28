@@ -28,7 +28,7 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
           className="mr-4 text-[#0c00ff] dark:text-[#fff] sm:mr-8"
         >
           <span className="sr-only">Navigate to Home Page</span>
-          <Logo />
+          <img src={isDark ? "/icons/logo_white.png" : "/icons/logo_blue.png"} alt="BMX Logo" width={70} height={40} />
         </a>
       </div>
 
