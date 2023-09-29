@@ -6,19 +6,19 @@ import { AIRDROP_CONTRACT } from '~/lib/contracts';
 import { bonderABI } from '~/lib/abis/bonder';
 
 async function fetchAmount(id: string, provider: BaseProvider | null) {
-  if (!provider) return null;
+  if (!provider) return BigNumber.from(0);
   try {
     const contract = new ethers.Contract(AIRDROP_CONTRACT, bonderABI, provider);
     const airdropAmount = await contract.viewAirdropAmount(id);
 
     return BigNumber.from(airdropAmount);
   } catch (error) {
-    return null;
+    return BigNumber.from(0);
   }
 }
 
 export function useGetAirdropAmount(id: string) {
   const { provider, network } = useNetworkProvider();
 
-  return useQuery<BigNumber | null>(['airdropAmount', network, id], () => fetchAmount(id, provider));
+  return useQuery<BigNumber>(['airdropAmount', network, id], () => fetchAmount(id, provider));
 }

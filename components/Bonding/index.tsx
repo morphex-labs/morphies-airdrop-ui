@@ -40,7 +40,6 @@ const ClaimCard = () => {
     }
   );
   const userAirdropAmount = useGetAirdropAmount(userAddress);
-  console.log('userAirdropAmount', userAirdropAmount.data);
   const hasClaimed = claimedData ? claimedData : false;
 
   const handleSubmit = async () => {
@@ -58,7 +57,7 @@ const ClaimCard = () => {
 
   return (
     <div className=" flex w-full max-w-[500px] flex-col rounded-lg bg-[#fffffe] p-4 shadow-xl dark:bg-[#334155]">
-      {userAirdropAmount.data && userAirdropAmount.data.gt(0) && (
+      {userAirdropAmount.data && (
         <p className="text-md">Your airdrop amount: {ethers.utils.formatUnits(userAirdropAmount.data)}</p>
       )}
       <SubmitButton disabled={hasClaimed !== false} className="mt-4 bg-[#0029FF]" onClick={handleSubmit}>

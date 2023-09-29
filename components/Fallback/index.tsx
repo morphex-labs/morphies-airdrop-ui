@@ -21,7 +21,7 @@ const Fallback = ({ isLoading, isError, noData, supressWalletConnection, showLoa
   const errorMessage = "Couldn't load data";
   const emptyDataMessage = 'Data is empty';
   const defaultMessage = !accountData
-    ? 'Connect a wallet to see your vesting contracts'
+    ? 'Connect a wallet to see'
     : unsupported
     ? 'Network not supported, please switch to Base Mainnet'
     : null;
