@@ -19,7 +19,7 @@ const Fallback = ({ isLoading, isError, noData, supressWalletConnection, showLoa
   const { unsupported } = useNetworkProvider();
 
   const errorMessage = "Couldn't load data";
-  const emptyDataMessage = 'Bond for MPX to see your vesting contracts';
+  const emptyDataMessage = 'Data is empty';
   const defaultMessage = !accountData
     ? 'Connect a wallet to see your vesting contracts'
     : unsupported
