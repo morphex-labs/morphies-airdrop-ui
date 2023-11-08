@@ -1,5 +1,5 @@
 export const VESTING_FACTORY_FANTOM = '0x9E462d5603Bb983b74e941Ebd5CE9Ea76f3a9e1e';
-export const AIRDROP_CONTRACT = '0x7558439427aAcD3465D5A804b62da7489b0bea71'; // updated for second bonding round
+export const AIRDROP_CONTRACT = '0xe7107B01AA1a99aB267e87A4035644c1CfAE41Cc'; // update to required airdropper contract
 export const BONDER_WFTM = '0xE974A88385935CB8846482F3Ab01b6c0f70fa5f3';
 
 export const MPX_ADDRESS = '0x66eEd5FF1701E6ed8470DC391F05e27B1d0657eb';
