@@ -4,14 +4,13 @@ import useSwapToken from '~/queries/useSwapToken';
 import { AIRDROP_CONTRACT } from '~/lib/contracts';
 import { useDialogState } from 'ariakit';
 
-import MoreInfo from '../MoreInfo';
-import React, { useState } from 'react';
+import React from 'react';
 import { TransactionDialog } from '../Dialog';
-import { bonderABI } from '~/lib/abis/bonder';
-import { BigNumber, ethers } from 'ethers';
+import { airdropperABI } from '~/lib/abis/airdropper';
+import { ethers } from 'ethers';
 import { useGetAirdropAmount } from '~/queries/useGetAirdropAmount';
 
-export default function BondingSection() {
+export default function AirdropClaim() {
   const [{ data: connectedData }] = useConnect();
   const isConnected = connectedData?.connected;
 
@@ -31,7 +30,7 @@ const ClaimCard = () => {
   const [{ data: claimedData }] = useContractRead(
     {
       addressOrName: AIRDROP_CONTRACT,
-      contractInterface: bonderABI,
+      contractInterface: airdropperABI,
     },
     'claimedAddresses',
     {

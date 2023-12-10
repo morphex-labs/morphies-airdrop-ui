@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import type { ITransactionError, ITransactionSuccess } from '~/types';
 import { useSigner } from 'wagmi';
-import { bonderABI } from '~/lib/abis/bonder';
+import { airdropperABI } from '~/lib/abis/airdropper';
 
 interface IUseSwapToken {
   contractAddress: string;
@@ -18,7 +18,7 @@ const swap = async ({ signer, contractAddress }: ISwapToken) => {
     if (!signer) {
       throw new Error("Couldn't get signer");
     } else {
-      const contract = new ethers.Contract(contractAddress, bonderABI, signer);
+      const contract = new ethers.Contract(contractAddress, airdropperABI, signer);
       return await contract.claim();
     }
   } catch (error: any) {

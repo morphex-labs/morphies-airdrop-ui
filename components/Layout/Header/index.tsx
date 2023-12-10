@@ -1,11 +1,8 @@
-import Link from 'next/link';
 import { useAccount } from 'wagmi';
 import { useTheme } from 'next-themes';
 import { DisclosureState } from 'ariakit';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
 
-import { Logo } from '../../Icons';
-import Dropdown from '../../Dropdown';
 import { useIsMounted } from '../../../hooks';
 import { Account, WalletSelector } from '../../Web3';
 
@@ -28,7 +25,7 @@ const Header = ({ walletDialog }: { walletDialog: DisclosureState }) => {
           className="mr-4 text-[#0c00ff] dark:text-[#fff] sm:mr-8"
         >
           <span className="sr-only">Navigate to Home Page</span>
-          <img src={isDark ? "/icons/logo_white.png" : "/icons/logo_blue.png"} alt="BMX Logo" width={70} height={40} />
+          <img src={isDark ? '/icons/logo_white.png' : '/icons/logo_blue.png'} alt="BMX Logo" width={70} height={40} />
         </a>
       </div>
 

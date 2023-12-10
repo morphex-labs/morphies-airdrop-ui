@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Layout from '../components/Layout';
-import BondingSection from '../components/Bonding';
+import BondingSection from '../components/Airdrop';
 
 const Home: NextPage = () => {
   return (

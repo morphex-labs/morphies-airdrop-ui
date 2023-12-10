@@ -10,10 +10,6 @@ interface INetworkDetails {
     blockExplorerName: string;
     prefix: string;
     logoURI: string;
-    vestingFactory: string;
-    migrator: string;
-    pills: string;
-    mpx: string;
   };
 }
 
@@ -25,9 +21,5 @@ export const networkDetails: INetworkDetails = {
     blockExplorerName: 'BaseScan',
     prefix: 'base',
     logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png',
-    vestingFactory: CONTRACTS.VESTING_FACTORY_FANTOM,
-    migrator: CONTRACTS.MIGRATOR_FANTOM,
-    pills: CONTRACTS.PILLS_ADDRESS,
-    mpx: CONTRACTS.MPX_ADDRESS,
   },
 };

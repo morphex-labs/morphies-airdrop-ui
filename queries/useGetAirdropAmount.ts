@@ -3,12 +3,12 @@ import { BigNumber, ethers } from 'ethers';
 import { useNetworkProvider } from '~/hooks';
 import { useQuery } from 'react-query';
 import { AIRDROP_CONTRACT } from '~/lib/contracts';
-import { bonderABI } from '~/lib/abis/bonder';
+import { airdropperABI } from '~/lib/abis/airdropper';
 
 async function fetchAmount(id: string, provider: BaseProvider | null) {
   if (!provider) return BigNumber.from(0);
   try {
-    const contract = new ethers.Contract(AIRDROP_CONTRACT, bonderABI, provider);
+    const contract = new ethers.Contract(AIRDROP_CONTRACT, airdropperABI, provider);
     const airdropAmount = await contract.viewAirdropAmount(id);
 
     return BigNumber.from(airdropAmount);

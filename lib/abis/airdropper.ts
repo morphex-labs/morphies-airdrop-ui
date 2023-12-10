@@ -1,4 +1,4 @@
-export const bonderABI = [
+export const airdropperABI = [
   {
     inputs: [
       { internalType: 'address', name: '_obmx', type: 'address' },
