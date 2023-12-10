@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Layout from '../components/Layout';
-import BondingSection from '../components/Airdrop';
+import AirdropClaim from '../components/Airdrop';
 
 const Home: NextPage = () => {
   return (
@@ -9,7 +9,7 @@ const Home: NextPage = () => {
         <div className="mb -mb-8 flex items-center justify-center">
           <p className="mr-2 text-xl">Claim oBMX</p>
         </div>
-        <BondingSection />
+        <AirdropClaim />
       </Layout>
     </div>
   );
