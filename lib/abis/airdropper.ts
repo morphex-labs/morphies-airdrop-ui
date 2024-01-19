@@ -124,13 +124,6 @@ export const airdropperABI = [
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: '_user', type: 'address' }],
-    name: 'viewAirdropAmount',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [{ internalType: 'address', name: '', type: 'address' }],
     name: 'whitelistedAddresses',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],

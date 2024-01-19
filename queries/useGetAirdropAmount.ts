@@ -9,7 +9,7 @@ async function fetchAmount(id: string, provider: BaseProvider | null) {
   if (!provider) return BigNumber.from(0);
   try {
     const contract = new ethers.Contract(AIRDROP_CONTRACT, airdropperABI, provider);
-    const airdropAmount = await contract.viewAirdropAmount(id);
+    const airdropAmount = await contract.airdropAmounts(id);
 
     return BigNumber.from(airdropAmount);
   } catch (error) {
