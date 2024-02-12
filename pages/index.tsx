@@ -9,6 +9,9 @@ const Home: NextPage = () => {
         <div className="mb -mb-8 flex items-center justify-center">
           <p className="mr-2 text-xl">Morphies: Claim oBMX</p>
         </div>
+        <div className="mb -mb-8 flex items-center justify-center">
+          <p className="text-m mr-2">Make sure you are connected to Base mainnet!</p>
+        </div>
         <AirdropClaim />
       </Layout>
     </div>
