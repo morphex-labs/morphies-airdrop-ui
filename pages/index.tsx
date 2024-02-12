@@ -7,7 +7,7 @@ const Home: NextPage = () => {
     <div className="mx-auto my-0 w-full max-w-[1280px] px-4 sm:px-6">
       <Layout className="flex flex-col gap-12">
         <div className="mb -mb-8 flex items-center justify-center">
-          <p className="mr-2 text-xl">Claim oBMX</p>
+          <p className="mr-2 text-xl">Morphies: Claim oBMX</p>
         </div>
         <AirdropClaim />
       </Layout>

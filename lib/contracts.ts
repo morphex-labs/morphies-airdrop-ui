@@ -1,1 +1,1 @@
-export const AIRDROP_CONTRACT = '0x608EbBc40c77fa90F5f2238Ee4dfc822d5486652'; // update to required airdropper contract
+export const AIRDROP_CONTRACT = '0xA0728099AC59F7b6717D31164746c1E7Ac57Dedb'; // update to required airdropper contract
